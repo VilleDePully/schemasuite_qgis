@@ -1,0 +1,13 @@
+-- SCHEMA: sigip
+
+-- DROP SCHEMA sigip ;
+
+CREATE SCHEMA sigip
+    AUTHORIZATION postgres;
+
+GRANT USAGE ON SCHEMA sigip TO grp_schemasuite_r;
+
+GRANT ALL ON SCHEMA sigip TO postgres;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA sigip
+GRANT SELECT, REFERENCES, TRIGGER ON TABLES TO grp_schemasuite_r;
