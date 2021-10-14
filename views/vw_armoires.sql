@@ -16,7 +16,7 @@ SELECT
 	nodv.geoposz_nodv as altitude,
 	obrv.fictif_obrv as fictif,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
-	ndfv.the_geom::geometry('PolygonZ',2056) as geom_polygon
+	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
 FROM dbo.objetreseauversion_obrv obrv
 LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.idobrv_nodv = obrv.id_obrv

@@ -24,4 +24,4 @@ LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
 LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 LEFT JOIN dbo.projet_prj prj ON prj.id_prj = brfv.idprj_brfv
-WHERE idorc_obrv = 17  and id_prj = 1; -- cable electrique
+WHERE idorc_obrv = 18  and id_prj = 1; -- cable electrique

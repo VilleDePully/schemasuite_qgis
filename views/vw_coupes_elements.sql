@@ -16,3 +16,4 @@ SELECT
 	cupv.the_geom::geometry('PolygonZ',2056) as geom_polygon
 
 FROM dbo.coupefeatureversion_cupv cupv
+WHERE cupv.idprj_cupv = 1

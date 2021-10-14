@@ -28,7 +28,8 @@ CREATE OR REPLACE VIEW sigip.vw_coupes_traces AS
 	 	SELECT cupv.idobr_cupv AS id_obr,
 			st_union((cupv.the_geom)::geometry(PolygonZ,2056)) AS geom_multi_polygon
    		FROM dbo.coupefeatureversion_cupv cupv
-  		WHERE (cupv.coupetype_cupv = 1)
+  		WHERE cupv.coupetype_cupv = 1
+      AND cupv.idprj_cupv = 1
   		GROUP BY cupv.idobr_cupv) coupes_traces
 		ON coupes_traces.id_obr = obrv.idobr_obrv
 		

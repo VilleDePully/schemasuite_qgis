@@ -14,4 +14,5 @@ SELECT
 	echelle_ctfv as echelle,
 	ST_Force2D(the_geom)::geometry('Point',2056) as the_geom
 FROM
-	dbo.coupetextfeatureversion_ctfv
+	dbo.coupetextfeatureversion_ctfv ctfv
+WHERE ctfv.idprj_ctfv = 1;

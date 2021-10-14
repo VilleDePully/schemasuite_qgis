@@ -20,7 +20,7 @@ SELECT
 	prj.etat_prj AS projet_etat,
 	obrv.fictif_obrv as fictif,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
-	ndfv.the_geom::geometry('PolygonZ',2056) as geom_polygon
+	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
 FROM dbo.objetreseauversion_obrv obrv
 LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.idobrv_nodv = obrv.id_obrv
@@ -29,4 +29,4 @@ LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-WHERE idorc_obrv = 43 and id_prj <> 1;
+WHERE idorc_obrv = 17 and id_prj <> 1;

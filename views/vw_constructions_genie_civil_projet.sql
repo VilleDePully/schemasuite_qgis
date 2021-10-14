@@ -10,7 +10,7 @@ SELECT
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
-	enfv.the_geom::geometry('PolygonZ',2056) as geom_polygon,
+	ST_Force2D(enfv.the_geom)::geometry('Polygon',2056) as geom_polygon,
 	st_centroid(ST_Force2D(enfv.the_geom))::geometry('Point',2056) as geom_centroid
 	
 FROM dbo.externalnoeudfeatureversion_enfv enfv
