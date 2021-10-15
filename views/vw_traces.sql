@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_traces;
+DROP VIEW IF EXISTS export.vw_traces;
 
-CREATE OR REPLACE VIEW sigip.vw_traces
+CREATE OR REPLACE VIEW export.vw_traces
  AS
  SELECT
     obrv.id_obrv as id_obrv,
@@ -26,9 +26,9 @@ CREATE OR REPLACE VIEW sigip.vw_traces
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
    WHERE obrv.idorc_obrv = 1 AND prj.id_prj = 1;
 
-ALTER TABLE sigip.vw_traces
+ALTER TABLE export.vw_traces
     OWNER TO postgres;
 
-GRANT ALL ON TABLE sigip.vw_traces TO postgres;
-GRANT SELECT, REFERENCES, TRIGGER ON TABLE sigip.vw_traces TO grp_schemasuite_r;
+GRANT ALL ON TABLE export.vw_traces TO postgres;
+GRANT SELECT, REFERENCES, TRIGGER ON TABLE export.vw_traces TO grp_schemasuite_r;
 

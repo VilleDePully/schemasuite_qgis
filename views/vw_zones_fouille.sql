@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_zones_fouille;
+DROP VIEW IF EXISTS export.vw_zones_fouille;
 
-CREATE OR REPLACE VIEW sigip.vw_zones_fouille AS
+CREATE OR REPLACE VIEW export.vw_zones_fouille AS
 
 SELECT
     obrv.id_obrv as id_obrv,

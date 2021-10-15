@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_coupes_elements;
+DROP VIEW IF EXISTS export.vw_coupes_elements;
 
-CREATE OR REPLACE VIEW sigip.vw_coupes_elements AS
+CREATE OR REPLACE VIEW export.vw_coupes_elements AS
 
 SELECT
 	cupv.id_cupv as id_cupv,

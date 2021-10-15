@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_manchons;
+DROP VIEW IF EXISTS export.vw_manchons;
 
-CREATE OR REPLACE VIEW sigip.vw_manchons AS
+CREATE OR REPLACE VIEW export.vw_manchons AS
 
 SELECT
     obrv.id_obrv as id_obrv,

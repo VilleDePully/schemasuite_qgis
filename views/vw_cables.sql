@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_cables;
+DROP VIEW IF EXISTS export.vw_cables;
 
-CREATE OR REPLACE VIEW sigip.vw_cables AS
+CREATE OR REPLACE VIEW export.vw_cables AS
 
 SELECT
 	obrv.id_obrv as id_obrv,

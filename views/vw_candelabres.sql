@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_candelabres;
+DROP VIEW IF EXISTS export.vw_candelabres;
 
-CREATE OR REPLACE VIEW sigip.vw_candelabres AS
+CREATE OR REPLACE VIEW export.vw_candelabres AS
 
 SELECT
     obrv.id_obrv as id_obrv,

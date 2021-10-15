@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_constructions_genie_civil_projet;
+DROP VIEW IF EXISTS export.vw_constructions_genie_civil_projet;
 
-CREATE OR REPLACE VIEW sigip.vw_constructions_genie_civil_projet AS
+CREATE OR REPLACE VIEW export.vw_constructions_genie_civil_projet AS
 
 SELECT
     enfv.id_enfv as id_enfv,

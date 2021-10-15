@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_coupes_lien_projet;
+DROP VIEW IF EXISTS export.vw_coupes_lien_projet;
 
-CREATE VIEW sigip.vw_coupes_lien_projet AS
+CREATE VIEW export.vw_coupes_lien_projet AS
 SELECT 
     id_kyfv as id_kyfv,
 	id_kyfv as id_ctfv,

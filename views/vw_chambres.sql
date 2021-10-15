@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_chambres;
+DROP VIEW IF EXISTS export.vw_chambres;
 
-CREATE OR REPLACE VIEW sigip.vw_chambres AS
+CREATE OR REPLACE VIEW export.vw_chambres AS
 
 SELECT
     obrv.id_obrv as id_obrv,

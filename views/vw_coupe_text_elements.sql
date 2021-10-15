@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS sigip.vw_coupe_text_elements;
+DROP VIEW IF EXISTS export.vw_coupe_text_elements;
 
-CREATE VIEW sigip.vw_coupe_text_elements AS
+CREATE VIEW export.vw_coupe_text_elements AS
 SELECT 
 	id_ctfv as id_ctfv,
 	libelle_ctfv as libelle,
