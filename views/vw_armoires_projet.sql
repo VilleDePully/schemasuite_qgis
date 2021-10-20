@@ -30,4 +30,4 @@ LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.
 LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 LEFT JOIN dbo.armoireelectrique_arm arm ON arm.idnodv_arm = nodv.idobrv_nodv
-WHERE idorc_obrv = 8 and id_prj <> 1;
+WHERE idorc_obrv = 8 and id_prj != 1 and idprj_ndfv != 1;

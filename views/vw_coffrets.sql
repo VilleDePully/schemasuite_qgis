@@ -25,5 +25,5 @@ LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-WHERE idorc_obrv IN (14,42,43) and id_prj = 1; --coffret, maison, immeuble
+WHERE idorc_obrv IN (42,43) and id_prj = 1 and idprj_ndfv = 1; --coffret, maison, immeuble
 
