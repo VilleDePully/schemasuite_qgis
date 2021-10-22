@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     obrv.nom_obrv AS nom,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
-    trc.precision_trc AS precision,
+    prc.value AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
     eta.libelle_eta as etat,
@@ -24,6 +24,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
    FROM dbo.objetreseauversion_obrv obrv
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
      LEFT JOIN dbo.trace_trc trc ON trc.idbrav_trc = obrv.id_obrv
+     LEFT JOIN mapped.precision prc ON prc.id_prec = trc.precision_trc
      LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
