@@ -7,6 +7,7 @@ SELECT
 	obrv.idobr_obrv as id_obr,
 	obrv.modele_obrv AS modele,
 	obrv.nom_obrv as nom,
+	ST_LENGTH(brfv.the_geom) AS longueur_calc,
 	eta.libelle_eta as etat,
 	ete.libelle_ete as etat_entretien,
 	obrv.constructiondate_obrv as date_construction,
@@ -28,4 +29,4 @@ LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
 LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 LEFT JOIN dbo.projet_prj prj ON prj.id_prj = brfv.idprj_brfv
-WHERE idorc_obrv = 18  and id_prj <> 1; -- cable electrique
+WHERE idorc_obrv IN (4,18) AND id_prj <> 1; -- cable electrique

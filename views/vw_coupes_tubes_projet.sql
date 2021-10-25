@@ -7,6 +7,7 @@ SELECT
     obrv.idobr_obrv AS id_obr,
     obrv.nom_obrv AS nom,
 	obrv.modele_obrv AS modele,
+    ST_LENGTH(cofv.the_geom) AS longueur_calc,
     eta.libelle_eta AS etat,
     ete.libelle_ete AS etat_entretien,
     obrv.constructiondate_obrv AS date_construction,
