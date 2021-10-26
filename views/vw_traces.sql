@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW export.vw_traces
     obrv.nom_obrv AS nom,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
-    ST_LENGTH(trav.the_geom) AS longueur_calc,
+    ROUND(ST_LENGTH(trav.the_geom)::numeric,2) AS longueur_calc,
     prc.value AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
