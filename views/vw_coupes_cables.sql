@@ -17,7 +17,9 @@ SELECT
 	prae.libelle_pra as exploitant,
 	obrv.fictif_obrv as fictif,
     ST_Multi(ST_Force2D(coupes_cables.geom_multi_polygon))::geometry('MultiPolygon',2056) as geom_multi_polygon
-	
+    --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
+    --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
+
 FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.branchefeatureversion_brfv brfv ON brfv.idobr_brfv = obrv.idobr_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv

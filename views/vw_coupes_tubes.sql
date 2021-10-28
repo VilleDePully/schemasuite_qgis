@@ -6,7 +6,7 @@ SELECT
     obrv.id_obrv,
     obrv.idobr_obrv AS id_obr,
     obrv.nom_obrv AS nom,
-	obrv.modele_obrv AS modele,
+	  obrv.modele_obrv AS modele,
     ST_LENGTH(cofv.the_geom) AS longueur_calc,
     eta.libelle_eta AS etat,
     ete.libelle_ete AS etat_entretien,
@@ -16,6 +16,8 @@ SELECT
     prae.libelle_pra AS exploitant,
     obrv.fictif_obrv AS fictif,
     ST_Multi(ST_FORCE2D(coupes_tubes.geom_multi_polygon))::geometry('MultiPolygon',2056) as geom_multi_polygon
+    --ST_MULTI(ST_UNION(ST_BUFFER(cofv.the_geom::Geometry('LineStringZ', 2056),0.1),
+    --  ST_Force2D(coupes_tubes.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex    
     --(cofv.the_geom)::geometry(LineStringZ,2056) AS the_geom
 	
    FROM ((((((dbo.objetreseauversion_obrv obrv

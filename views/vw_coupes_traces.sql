@@ -17,7 +17,9 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces AS
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
     ST_Multi(ST_Force2D(coupes_traces.geom_multi_polygon))::geometry('MultiPolygon',2056) as geom_multi_polygon
-	
+    --ST_MULTI(ST_UNION(ST_BUFFER(trav.the_geom::Geometry('LineStringZ', 2056),0.1)
+    --  ,ST_Force2D(coupes_traces.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
+
   FROM dbo.objetreseauversion_obrv obrv
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
      LEFT JOIN dbo.trace_trc trc ON trc.idbrav_trc = obrv.id_obrv
