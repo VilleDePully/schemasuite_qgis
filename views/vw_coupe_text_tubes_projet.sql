@@ -14,4 +14,4 @@ FROM
 	dbo.coupetextfeatureversion_ctfv
 WHERE
     texttype_ctfv = 3
-AND idprj_ctfv <> 1;
+AND idprj_ctfv != 1;
