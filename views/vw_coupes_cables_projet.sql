@@ -36,8 +36,8 @@ FROM dbo.objetreseauversion_obrv obrv
 			st_union((cupv.the_geom)::geometry(PolygonZ,2056)) AS geom_multi_polygon
    		FROM dbo.coupefeatureversion_cupv cupv
   		WHERE cupv.coupetype_cupv = 4
-		AND cupv.idprj_cupv <> 1
+		AND cupv.idprj_cupv != 1
   		GROUP BY cupv.idobr_cupv) coupes_cables
 		ON coupes_cables.id_obr = obrv.idobr_obrv
 		
-WHERE idorc_obrv IN (4,18) AND id_prj <> 1;
+WHERE obrv.idorc_obrv IN (4,18) AND obrv.idprj_obrv != 1 AND brfv.idprj_brfv != 1;

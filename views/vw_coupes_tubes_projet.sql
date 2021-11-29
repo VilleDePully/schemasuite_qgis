@@ -24,21 +24,21 @@ SELECT
     --  ST_Force2D(coupes_tubes.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
     --(cofv.the_geom)::geometry(LineStringZ,2056) AS the_geom
 	
-   FROM ((((((dbo.objetreseauversion_obrv obrv
-     LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON ((cofv.idobr_cofv = obrv.idobr_obrv)))
-     LEFT JOIN dbo.netat_eta eta ON ((eta.id_eta = obrv.idetat_obrv)))
-     LEFT JOIN dbo.netatentretien_ete ete ON ((ete.id_ete = obrv.idetatentretien_obrv)))
-     LEFT JOIN dbo.npersonneabstraite_pra prap ON ((obrv.idproprietairepra_obrv = prap.id_pra)))
-     LEFT JOIN dbo.npersonneabstraite_pra prae ON ((obrv.idexploitantpra_obrv = prae.id_pra)))
-     LEFT JOIN dbo.projet_prj prj ON ((prj.id_prj = cofv.idprj_cofv))) 
+   FROM dbo.objetreseauversion_obrv obrv
+     LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
+     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
+     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
+     LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
+     LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
+     LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
      INNER JOIN (
 	 	SELECT cupv.idobr_cupv AS id_obr,
 			st_union((cupv.the_geom)::geometry(PolygonZ,2056)) AS geom_multi_polygon
-   		FROM dbo.coupefeatureversion_cupv cupv
+   	FROM dbo.coupefeatureversion_cupv cupv
   		WHERE cupv.coupetype_cupv = 2
-        AND cupv.idprj_cupv <> 1
+        AND cupv.idprj_cupv != 1
   		GROUP BY cupv.idobr_cupv) coupes_tubes
 		ON coupes_tubes.id_obr = obrv.idobr_obrv
 		
-  	WHERE ((obrv.idorc_obrv = 2) AND (prj.id_prj <> 1));
+  	WHERE obrv.idorc_obrv = 2 AND obrv.idprj_obrv != 1 AND cofv.idprj_cofv != 1;
 

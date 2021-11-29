@@ -15,13 +15,13 @@ SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	obrv.fictif_obrv as fictif,
-	cofv.the_geom::geometry('LineStringZ','2056') as the_geom
+	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
-LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
-LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
-LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
-LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
-LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
-LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
-WHERE idorc_obrv = 2 AND prj.id_prj = 1; -- conduites
+	LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
+	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
+	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
+	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
+	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
+	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
+WHERE obrv.idorc_obrv = 2 AND obrv.idprj_obrv = 1 AND cofv.idprj_cofv = 1; -- conduites

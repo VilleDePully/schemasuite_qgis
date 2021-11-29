@@ -13,4 +13,4 @@ SELECT
 FROM
 	dbo.coupelinkfeatureversion_kyfv
 WHERE
-	idprj_kyfv <> 1;
+	idprj_kyfv != 1;

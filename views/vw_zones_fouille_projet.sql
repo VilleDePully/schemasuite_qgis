@@ -23,10 +23,10 @@ SELECT
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
 FROM dbo.objetreseauversion_obrv obrv
-LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.idobrv_nodv = obrv.id_obrv
-LEFT JOIN dbo.noeudfeatureversion_ndfv ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
-LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
-LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
-LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
-LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-WHERE idorc_obrv = 3 and id_prj != 1 and idprj_ndfv != 1; -- zones de fouilles
+	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = obrv.id_obrv
+	LEFT JOIN dbo.noeudfeatureversion_ndfv ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
+	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
+	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
+	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
+	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+WHERE obrv.idorc_obrv = 3 AND obrv.idprj_obrv != 1 AND ndfv.idprj_ndfv != 1; -- zones de fouilles

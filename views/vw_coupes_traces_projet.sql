@@ -26,7 +26,7 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
 
   FROM dbo.objetreseauversion_obrv obrv
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
-     LEFT JOIN dbo.trace_trc trc ON trc.idbrav_trc = obrv.id_obrv
+     LEFT JOIN dbo.trace_trc trc ON trc.id_obrv = obrv.id_obrv
      LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
@@ -36,8 +36,8 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
 			st_union((cupv.the_geom)::geometry(PolygonZ,2056)) AS geom_multi_polygon
    		FROM dbo.coupefeatureversion_cupv cupv
   		WHERE cupv.coupetype_cupv = 1 
-      AND cupv.idprj_cupv <> 1
+      AND cupv.idprj_cupv != 1
   		GROUP BY cupv.idobr_cupv) coupes_traces
 		ON coupes_traces.id_obr = obrv.idobr_obrv
 		
-  WHERE obrv.idorc_obrv = 1 AND prj.id_prj <> 1;
+  WHERE obrv.idorc_obrv = 1 AND obrv.idprj_obrv != 1 AND trav.idprj_trav != 1;

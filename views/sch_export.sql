@@ -1,6 +1,6 @@
 -- SCHEMA: export
 
--- DROP SCHEMA export ;
+DROP SCHEMA IF EXISTS export CASCADE;
 
 CREATE SCHEMA export
     AUTHORIZATION postgres;

@@ -9,7 +9,7 @@ SELECT
 	texttype_ctfv as texttype,
 	idobr_ctfv as idobr,
 	echelle_ctfv as echelle,
-	ST_Force2D(the_geom)::geometry('Point',2056) as the_geom
+	ST_Force2D(the_geom)::geometry('LineString',2056) as the_geom
 FROM
 	dbo.coupetextfeatureversion_ctfv
 WHERE

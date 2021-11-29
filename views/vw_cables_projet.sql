@@ -20,13 +20,13 @@ SELECT
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
 	obrv.fictif_obrv as fictif,
-	brfv.the_geom::geometry('LineStringZ','2056') as the_geom
+	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
-LEFT JOIN dbo.branchefeatureversion_brfv brfv ON brfv.idobr_brfv = obrv.idobr_obrv
-LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
-LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
-LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
-LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
-LEFT JOIN dbo.projet_prj prj ON prj.id_prj = brfv.idprj_brfv
-WHERE idorc_obrv IN (4,18) AND id_prj <> 1; -- cable electrique
+	LEFT JOIN dbo.branchefeatureversion_brfv brfv ON brfv.idobr_brfv = obrv.idobr_obrv
+	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
+	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
+	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
+	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
+	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+WHERE obrv.idorc_obrv IN (4,18) AND obrv.idprj_obrv != 1 AND brfv.idprj_brfv != 1; -- cable electrique

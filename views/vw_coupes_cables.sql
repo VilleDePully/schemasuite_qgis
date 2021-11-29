@@ -36,4 +36,4 @@ FROM dbo.objetreseauversion_obrv obrv
   		GROUP BY cupv.idobr_cupv) coupes_cables
 		ON coupes_cables.id_obr = obrv.idobr_obrv
 		
-WHERE idorc_obrv IN (4,18) AND id_prj = 1;
+WHERE obrv.idorc_obrv IN (4,18) AND obrv.idprj_obrv = 1 AND brfv.idprj_brfv = 1;
