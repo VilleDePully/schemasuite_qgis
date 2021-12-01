@@ -27,4 +27,4 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-WHERE obrv.idorc_obrv = 46 and obrv.idprj_obrv != 1 and ndfv.idprj_ndfv != 1; -- 46 chambre
+WHERE obrv.idorc_obrv IN (8,9,46) AND obrv.idprj_obrv != 1 AND ndfv.idprj_ndfv != 1; -- 46 chambre
