@@ -33,7 +33,7 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
      INNER JOIN (
 	 	SELECT cupv.idobr_cupv AS id_obr,
-			st_union((cupv.the_geom)::geometry(PolygonZ,2056)) AS geom_multi_polygon
+			st_union((cupv.the_geom)::geometry(Polygon,2056)) AS geom_multi_polygon
    		FROM dbo.coupefeatureversion_cupv cupv
   		WHERE cupv.coupetype_cupv = 1 
       AND cupv.idprj_cupv != 1
