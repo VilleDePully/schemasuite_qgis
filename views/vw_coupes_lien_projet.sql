@@ -9,7 +9,7 @@ SELECT
 	idprj_kyfv as idprj,
 	state_kyfv as etat,
 	idsch_kyfv as idsch,
-	ST_Force2D(the_geom)::geometry('MultiLineString','2056') as the_geom
+	ST_MULTI(ST_Force2D(the_geom))::geometry('MultiLineString','2056') as the_geom
 FROM
 	dbo.coupelinkfeatureversion_kyfv
 WHERE
