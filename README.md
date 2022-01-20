@@ -1,8 +1,8 @@
-# Projet de visulation des données du réseau électrique sur QGIS ou pour export vers un géoportail
+# Projet de visualisation des données du réseau électrique sur QGIS ou pour export vers un géoportail
 
 Ensemble de scripts et de ressources pour faciliter la visualisation et l'exploitation de données électriques saisies dans le logiciel SchemaSuite sur QGIS.
 
-Ces scripts et ressources sont mises à disposition sans garantie ni support et sont actuellement conçus pour les besoins de la Ville de Pully.
+Ces scripts et ressources sont mises à disposition sans garantie ni support et sont actuellement uniquement conçus pour les besoins de la Ville de Pully.
 
 Contenu des dossiers :
 
