@@ -15,6 +15,7 @@ AS SELECT
     ete.libelle_ete AS etat_entretien,
     obrv.constructiondate_obrv AS date_construction,
     obrv.miseenservicedate_obrv AS date_mise_en_service,
+    obrv.observation_obrv as remarque,
     prap.libelle_pra AS proprietaire,
     prae.libelle_pra AS exploitant,
     obrv.fictif_obrv AS fictif,

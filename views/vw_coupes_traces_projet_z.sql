@@ -17,6 +17,7 @@ AS
     eta.libelle_eta as etat,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
+    obrv.observation_obrv as remarque,
     prj.id_prj AS projet_id,
     prj.nom_prj AS projet_nom,
     prj.description_prj AS projet_description,

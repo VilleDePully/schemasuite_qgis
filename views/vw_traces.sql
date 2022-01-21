@@ -16,6 +16,7 @@ CREATE OR REPLACE VIEW export.vw_traces
     eta.libelle_eta as etat,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
+    obrv.observation_obrv as remarque,
     obrv.fictif_obrv as fictif,
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 

@@ -11,6 +11,7 @@ SELECT
 	eta.libelle_eta as etat,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
+	obrv.observation_obrv as remarque,
 	--ndfv.niveautension_ndf as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,

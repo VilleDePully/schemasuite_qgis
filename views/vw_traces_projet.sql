@@ -16,6 +16,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     eta.libelle_eta as etat,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
+    obrv.observation_obrv as remarque,
     obrv.fictif_obrv as fictif,
     prj.id_prj AS projet_id,
     prj.nom_prj AS projet_nom,
