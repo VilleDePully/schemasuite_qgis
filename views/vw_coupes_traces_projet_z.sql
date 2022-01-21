@@ -1,9 +1,10 @@
-DROP VIEW IF EXISTS export.vw_coupes_traces;
+DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_traces_projet;
 
-CREATE OR REPLACE VIEW export.vw_coupes_traces AS
-
+CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_traces_projet 
+TABLESPACE pg_default
+AS
  SELECT 
-    obrv.id_obrv,
+   obrv.id_obrv as id_obrv,
     obrv.idobr_obrv AS id_obr,
     obrv.modele_obrv AS modele,
     obrv.nom_obrv AS nom,
@@ -16,7 +17,11 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces AS
     eta.libelle_eta as etat,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
-    ST_Multi(ST_Force2D(coupes_traces.geom_multi_polygon))::geometry('MultiPolygon',2056) as geom_multi_polygon
+    prj.id_prj AS projet_id,
+    prj.nom_prj AS projet_nom,
+    prj.description_prj AS projet_description,
+    prj.etat_prj AS projet_etat,
+    coupes_traces.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(trav.the_geom::Geometry('LineStringZ', 2056),0.1)
     --  ,ST_Force2D(coupes_traces.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
 
@@ -27,13 +32,7 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces AS
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
-     INNER JOIN (
-	 	SELECT cupv.idobr_cupv AS id_obr,
-			st_union((cupv.the_geom)::geometry(Polygon,2056)) AS geom_multi_polygon
-   		FROM dbo.coupefeatureversion_cupv cupv
-  		WHERE cupv.coupetype_cupv = 1
-      AND cupv.idprj_cupv = 1
-  		GROUP BY cupv.idobr_cupv) coupes_traces
-		ON coupes_traces.id_obr = obrv.idobr_obrv
+     INNER JOIN export.vw_coupes_traces_geom_projet coupes_traces ON coupes_traces.id_obr = obrv.idobr_obrv
 		
-  WHERE obrv.idorc_obrv = 1 AND obrv.idprj_obrv = 1 AND trav.idprj_trav = 1;
+  WHERE obrv.idorc_obrv = 1 AND obrv.idprj_obrv != 1 AND trav.idprj_trav != 1
+  WITH DATA;
