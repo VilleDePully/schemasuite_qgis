@@ -15,7 +15,6 @@ SELECT
 	obrv.observation_obrv as remarque,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
-	obrv.fictif_obrv as fictif,
 	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv

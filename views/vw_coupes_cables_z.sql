@@ -18,7 +18,6 @@ AS SELECT
 	brfv.niveautension_brfv as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
-	obrv.fictif_obrv as fictif,
     coupes_cables.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
     --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex	

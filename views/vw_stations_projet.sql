@@ -15,6 +15,7 @@ SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	nodv.geoposz_nodv as altitude,
+	nodv.acces_nodv as acces,
 	prj.id_prj AS projet_id,
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,

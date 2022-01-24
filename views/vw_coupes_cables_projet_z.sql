@@ -22,7 +22,6 @@ AS SELECT
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
-	obrv.fictif_obrv as fictif,
     coupes_cables.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
     --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex	

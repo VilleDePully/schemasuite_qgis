@@ -16,7 +16,7 @@ SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	nodv.geoposz_nodv as altitude,
-	obrv.fictif_obrv as fictif,
+	nodv.acces_nodv as acces,
 	--st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	

@@ -20,7 +20,6 @@ SELECT
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
-	obrv.fictif_obrv as fictif,
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
