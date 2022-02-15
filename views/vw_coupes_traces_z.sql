@@ -18,6 +18,8 @@ AS
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
     obrv.observation_obrv as remarque,
+    obrv.creationdate_obrv AS date_creation,
+	 obrv.modificationdate_obrv AS date_modification,
     ST_Multi(ST_Force2D(coupes_traces.geom_multi_polygon))::geometry('MultiPolygon',2056) as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(trav.the_geom::Geometry('LineStringZ', 2056),0.1)
     --  ,ST_Force2D(coupes_traces.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
@@ -31,5 +33,7 @@ AS
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
      INNER JOIN export.vw_coupes_traces_geom coupes_traces ON coupes_traces.id_obr = obrv.idobr_obrv
 		
-  WHERE obrv.idorc_obrv = 1 AND obrv.idprj_obrv = 1 AND trav.idprj_trav = 1
+  WHERE obrv.idorc_obrv = 1 
+   AND obrv.idprj_obrv = 1 
+   AND trav.idprj_trav = 1
 WITH DATA;

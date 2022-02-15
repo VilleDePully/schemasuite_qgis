@@ -25,6 +25,8 @@ SELECT
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
+	obrv.creationdate_obrv AS date_creation,
+	obrv.modificationdate_obrv AS date_modification,
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
@@ -37,4 +39,4 @@ FROM dbo.objetreseauversion_obrv obrv
 WHERE obrv.idorc_obrv IN (4,18) 
 	AND obrv.idprj_obrv != 1 
 	AND brfv.idprj_brfv != 1
-	AND ST_GeometryType(brfv.the_geom) = 'ST_LineString'; -- cable electrique
+	AND ST_GeometryType(brfv.the_geom) = 'ST_LineString';

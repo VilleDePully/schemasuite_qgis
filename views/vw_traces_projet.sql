@@ -21,6 +21,8 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     prj.nom_prj AS projet_nom,
     prj.description_prj AS projet_description,
     prj.etat_prj AS projet_etat,
+    obrv.creationdate_obrv AS date_creation,
+	  obrv.modificationdate_obrv AS date_modification,
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv
@@ -31,5 +33,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
-   WHERE obrv.idorc_obrv = 1 AND obrv.idprj_obrv != 1 AND trav.idprj_trav != 1;
+   WHERE obrv.idorc_obrv = 1 
+    AND obrv.idprj_obrv != 1 
+    AND trav.idprj_trav != 1;
 

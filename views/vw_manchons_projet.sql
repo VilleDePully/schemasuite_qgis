@@ -22,6 +22,8 @@ SELECT
 	prj.etat_prj AS projet_etat,
 	v_obrvl.idparent_cmp as id_obr_parent,
 	ndfv.libelle_ndfv as libelle_parent,
+	obrv.creationdate_obrv AS date_creation,
+	obrv.modificationdate_obrv AS date_modification,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
@@ -33,4 +35,6 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-WHERE obrv.idorc_obrv = 13 and obrv.idprj_obrv != 1 AND ndfv.idprj_ndfv != 1; -- manchons
+WHERE obrv.idorc_obrv = 13 
+	AND obrv.idprj_obrv != 1 
+	AND ndfv.idprj_ndfv != 1; -- manchons
