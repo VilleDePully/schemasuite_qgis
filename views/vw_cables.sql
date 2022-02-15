@@ -16,6 +16,11 @@ SELECT
 	brfv.niveautension_brfv as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
+	CASE
+		WHEN obrv.observation_obrv LIKE '%Principale%' THEN 'Principale (réseau)'
+		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale (réseau)'
+		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement (client)'
+	END type_hierarchique,
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv

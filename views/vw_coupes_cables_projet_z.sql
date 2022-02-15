@@ -18,6 +18,11 @@ AS SELECT
 	brfv.niveautension_brfv as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
+	CASE
+		WHEN obrv.observation_obrv LIKE '%Principale%' THEN 'Principale (réseau)'
+		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale (réseau)'
+		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement (client)'
+	END type_hierarchique,
 	prj.id_prj AS projet_id,
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
