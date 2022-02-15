@@ -24,6 +24,7 @@ SELECT
 	ndfv.libelle_ndfv as libelle_parent,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	new.existant as existant,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
@@ -35,6 +36,8 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+	LEFT JOIN export.vw__new_obrv new ON new.idobr_obrv = obrv.idobr_obrv
+	
 WHERE obrv.idorc_obrv = 13 
 	AND obrv.idprj_obrv != 1 
 	AND ndfv.idprj_ndfv != 1; -- manchons

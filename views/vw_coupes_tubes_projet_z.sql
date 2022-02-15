@@ -37,7 +37,7 @@ AS SELECT
      LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
      INNER JOIN export.vw_coupes_tubes_projet_geom coupes_tubes ON coupes_tubes.id_obr = obrv.idobr_obrv
-		
+
   	WHERE obrv.idorc_obrv = 2 
       AND obrv.idprj_obrv != 1 
       AND cofv.idprj_cofv != 1

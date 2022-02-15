@@ -36,7 +36,7 @@ AS
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
      INNER JOIN export.vw_coupes_traces_geom_projet coupes_traces ON coupes_traces.id_obr = obrv.idobr_obrv
-		
+
   WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv != 1 
     AND trav.idprj_trav != 1
