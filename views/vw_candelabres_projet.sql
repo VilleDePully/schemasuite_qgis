@@ -23,9 +23,9 @@ SELECT
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Modifié'
-		WHEN obrv.state_obrv = 1 THEN 'Créé'
-		WHEN obrv.state_obrv = 2 THEN 'Supprimé'
+		WHEN obrv.state_obrv = 0 THEN 'Cree'
+		WHEN obrv.state_obrv = 1 THEN 'Modifie'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon

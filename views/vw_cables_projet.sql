@@ -28,8 +28,8 @@ SELECT
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Modifie'
-		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 0 THEN 'Cree'
+		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom

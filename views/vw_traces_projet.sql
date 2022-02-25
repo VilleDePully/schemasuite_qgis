@@ -24,8 +24,8 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     obrv.creationdate_obrv AS date_creation,
 	  obrv.modificationdate_obrv AS date_modification,
 	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Modifie'
-		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 0 THEN 'Cree'
+		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
