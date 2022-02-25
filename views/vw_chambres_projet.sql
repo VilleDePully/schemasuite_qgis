@@ -22,7 +22,11 @@ SELECT
 	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
-	new.existant as existant,
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Modifie'
+		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END statut,
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
@@ -33,7 +37,6 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	LEFT JOIN export.vw__new_obrv new ON new.idobr_obrv = obrv.idobr_obrv
 	
 	-- 46 chambres
 WHERE obrv.idorc_obrv = 46 

@@ -21,7 +21,11 @@ SELECT
 	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
-	new.existant as existant,
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Modifie'
+		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END statut,
 	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
@@ -31,7 +35,6 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
-	LEFT JOIN export.vw__new_obrv new ON new.idobr_obrv = obrv.idobr_obrv
 	
 WHERE obrv.idorc_obrv = 2 
 	AND obrv.idprj_obrv != 1 

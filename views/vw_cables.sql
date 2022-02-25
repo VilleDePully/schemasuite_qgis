@@ -17,9 +17,9 @@ SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	CASE
-		WHEN obrv.observation_obrv LIKE '%Principale%' THEN 'Principale (réseau)'
-		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale (réseau)'
-		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement (client)'
+		WHEN obrv.observation_obrv LIKE '%Principale%' THEN 'Principale'
+		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale'
+		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement'
 	END type_hierarchique,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,

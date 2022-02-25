@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
     ROUND(ST_LENGTH(trav.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
-    prc.value AS precision,
+    prc.value_fr AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
     eta.libelle_eta as etat,
@@ -23,7 +23,11 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     prj.etat_prj AS projet_etat,
     obrv.creationdate_obrv AS date_creation,
 	  obrv.modificationdate_obrv AS date_modification,
-    new.existant as existant,
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Modifie'
+		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END statut,
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv
@@ -34,7 +38,6 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
-     LEFT JOIN export.vw__new_obrv new ON new.idobr_obrv = obrv.idobr_obrv
      
    WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv != 1 

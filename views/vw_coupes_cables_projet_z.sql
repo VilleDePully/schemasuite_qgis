@@ -29,6 +29,11 @@ AS SELECT
 	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Modifie'
+		WHEN obrv.state_obrv = 1 THEN 'Cree'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END statut,
     coupes_cables.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
     --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex	

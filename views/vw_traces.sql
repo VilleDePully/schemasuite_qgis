@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW export.vw_traces
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
     ROUND(ST_LENGTH(trav.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
-    prc.value AS precision,
+    prc.value_fr AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
     eta.libelle_eta as etat,
@@ -29,6 +29,7 @@ CREATE OR REPLACE VIEW export.vw_traces
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
+
    WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv = 1 
     AND trav.idprj_trav = 1;
