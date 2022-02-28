@@ -1,6 +1,3 @@
--- SCHEMA: mapped
-
--- DROP SCHEMA mapped ;
 
 CREATE SCHEMA mapped
     AUTHORIZATION postgres;
