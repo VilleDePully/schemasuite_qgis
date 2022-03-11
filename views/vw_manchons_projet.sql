@@ -11,7 +11,7 @@ SELECT
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.observation_obrv as remarque,
-	--ndfv.niveautension_ndf as tension,
+	--ndfv.niveautension_ndf as tension, NULL pour les chambres
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	nodv.geoposz_nodv as altitude,
