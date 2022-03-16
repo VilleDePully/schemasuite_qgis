@@ -1,8 +1,3 @@
-USE [SCHEMASUITE_PULLY_TEST] -- To be replaced or defined in FME
-GO
-
-/****** Object:  Schema [db_owner]    Script Date: 16.03.2022 08:09:21 ******/
---DROP VIEW IF EXISTS export.vw_armoires;
 
 CREATE VIEW export.vw_armoires AS
 
@@ -36,6 +31,3 @@ FROM dbo.objetreseauversion_obrv obrv
 WHERE obrv.idorc_obrv = 8 
 	AND obrv.idprj_obrv = 1 
 	AND ndfv.idprj_ndfv = 1;
-GO
-
-

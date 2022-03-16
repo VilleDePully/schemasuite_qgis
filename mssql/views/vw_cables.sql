@@ -1,10 +1,5 @@
-USE [SCHEMASUITE_PULLY_TEST] -- To be replaced or defined in FME
-GO
-
---DROP VIEW IF EXISTS export.vw_cables;
 
 CREATE VIEW export.vw_cables AS
-
 SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,

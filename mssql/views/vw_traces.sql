@@ -1,7 +1,3 @@
-USE [SCHEMASUITE_PULLY_TEST] -- To be replaced or defined in FME
-GO
-
---DROP VIEW IF EXISTS export.vw_traces;
 
 CREATE VIEW export.vw_traces
  AS
@@ -36,3 +32,4 @@ CREATE VIEW export.vw_traces
    WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv = 1 
     AND trav.idprj_trav = 1;
+    
