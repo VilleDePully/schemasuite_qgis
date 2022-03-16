@@ -1,5 +1,5 @@
 
-CREATE VIEW export.vw_armoires AS
+CREATE VIEW export.vw_candelabres AS
 
 SELECT
     obrv.id_obrv as id_obrv,
@@ -27,7 +27,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	LEFT JOIN dbo.armoireelectrique_arm arm ON arm.id_obrv = nodv.id_obrv
-WHERE obrv.idorc_obrv = 8 
+
+WHERE obrv.idorc_obrv = 17 -- 17 candélabres
 	AND obrv.idprj_obrv = 1 
 	AND ndfv.idprj_ndfv = 1;

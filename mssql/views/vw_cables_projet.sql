@@ -1,5 +1,6 @@
 
-CREATE VIEW export.vw_cables AS
+CREATE VIEW export.vw_cables_projet AS
+
 SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
@@ -20,8 +21,18 @@ SELECT
 		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale'
 		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement'
 	END,
+	prj.id_prj AS projet_id,
+	prj.nom_prj AS projet_nom,
+	prj.description_prj AS projet_description,
+	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	statut =
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Cree'
+		WHEN obrv.state_obrv = 1 THEN 'Modifie'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END,
 	brfv.geometry_brfv as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
@@ -31,7 +42,8 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	
+
 WHERE obrv.idorc_obrv IN (4,18) -- cable générique, electrique
-	AND obrv.idprj_obrv = 1 
-	AND brfv.idprj_brfv = 1; 
+	AND obrv.idprj_obrv != 1 
+	AND brfv.idprj_brfv != 1
+	--AND ST_GeometryType(brfv.the_geom) = 'ST_LineString';

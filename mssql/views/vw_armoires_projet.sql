@@ -1,5 +1,5 @@
 
-CREATE VIEW export.vw_armoires AS
+CREATE VIEW export.vw_armoires_projet AS
 
 SELECT
     obrv.id_obrv as id_obrv,
@@ -15,8 +15,18 @@ SELECT
 	prae.libelle_pra as exploitant,
 	nodv.geoposz_nodv as altitude,
 	nodv.acces_nodv as acces,
+	prj.id_prj AS projet_id,
+	prj.nom_prj AS projet_nom,
+	prj.description_prj AS projet_description,
+	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	statut =
+	CASE
+		WHEN obrv.state_obrv = 0 THEN 'Cree'
+		WHEN obrv.state_obrv = 1 THEN 'Modifie'
+		WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	END,
 	ndfv.geometry_ndfv.STCentroid() as geom_centroid,
 	ndfv.geometry_ndfv as geom_polygon
 	
@@ -28,6 +38,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.armoireelectrique_arm arm ON arm.id_obrv = nodv.id_obrv
-WHERE obrv.idorc_obrv = 8 
-	AND obrv.idprj_obrv = 1 
-	AND ndfv.idprj_ndfv = 1;
+	
+WHERE obrv.idorc_obrv = 8
+	AND obrv.idprj_obrv != 1
+	AND ndfv.idprj_ndfv != 1;
