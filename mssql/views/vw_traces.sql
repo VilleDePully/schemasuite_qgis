@@ -1,6 +1,6 @@
 
-CREATE VIEW export.vw_traces
- AS
+CREATE VIEW export.vw_traces AS
+
  SELECT
     obrv.id_obrv as id_obrv,
     obrv.idobr_obrv AS id_obr,
@@ -17,7 +17,7 @@ CREATE VIEW export.vw_traces
     obrv.miseenservicedate_obrv as date_mise_en_service,
     obrv.observation_obrv as remarque,
     obrv.creationdate_obrv AS date_creation,
-	obrv.modificationdate_obrv AS date_modification,
+	  obrv.modificationdate_obrv AS date_modification,
     trav.geometry_trav as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv

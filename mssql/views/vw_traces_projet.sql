@@ -1,6 +1,6 @@
 
-CREATE VIEW export.vw_traces_projet
- AS
+CREATE VIEW export.vw_traces_projet AS
+
  SELECT
     obrv.id_obrv,
     obrv.idobr_obrv AS id_obr,
@@ -22,13 +22,13 @@ CREATE VIEW export.vw_traces_projet
     prj.etat_prj AS projet_etat,
     obrv.creationdate_obrv AS date_creation,
 	  obrv.modificationdate_obrv AS date_modification,
-	statut =
-	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Cree'
-		WHEN obrv.state_obrv = 1 THEN 'Modifie'
-		WHEN obrv.state_obrv = 2 THEN 'Supprime'
-	END,
-  trav.geometry_trav as the_geom
+    statut =
+    CASE
+      WHEN obrv.state_obrv = 0 THEN 'Cree'
+      WHEN obrv.state_obrv = 1 THEN 'Modifie'
+      WHEN obrv.state_obrv = 2 THEN 'Supprime'
+    END,
+    trav.geometry_trav as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
