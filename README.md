@@ -24,3 +24,5 @@ Contenu des dossiers : (séparation postgreSQL et MSSQL en cours)
 Certaines vues ont été transformées en vues matérialisées pour une meilleure performance.
 
 Ceci est du Work In Progress (WIP) 
+
+![Exemple de rendu : cadastre électrique](../images/qgis/Cadastre_electrique.png?raw=true "Exemple de rendu : cadastre électrique")
