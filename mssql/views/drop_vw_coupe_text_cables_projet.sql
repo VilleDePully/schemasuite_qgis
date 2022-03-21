@@ -1,0 +1,2 @@
+
+DROP VIEW IF EXISTS export.vw_coupe_text_cables_projet;
