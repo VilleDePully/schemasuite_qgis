@@ -11,7 +11,7 @@ CREATE VIEW export.vw_coupe_text_elements AS
 		texttype_ctfv as texttype,
 		idobr_ctfv as idobr,
 		echelle_ctfv as echelle,
-		geometry_ctvf as the_geom
+		geometry_ctfv as the_geom
 	FROM
 		dbo.coupetextfeatureversion_ctfv ctfv
 	WHERE ctfv.idprj_ctfv = 1;
