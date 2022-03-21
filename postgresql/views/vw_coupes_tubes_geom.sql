@@ -1,3 +1,4 @@
+
 DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_tubes_geom;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_tubes_geom

@@ -1,7 +1,8 @@
+--File is named with _z extension to be run last with FME
 
-CREATE VIEW export.vw_cables_projet AS
+CREATE VIEW export.vw_coupes_cables_projet
 
-SELECT
+AS SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	obrv.modele_obrv AS modele,
@@ -33,7 +34,9 @@ SELECT
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END,
-	brfv.geometry_brfv as the_geom
+    coupes_cables.geom_multi_polygon as geom_multi_polygon
+    --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
+    --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex	
 
 FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.branchefeatureversion_brfv brfv ON brfv.idobr_brfv = obrv.idobr_obrv
@@ -42,9 +45,9 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-
-WHERE obrv.idorc_obrv IN (4,18) -- cable générique, electrique
+    INNER JOIN export.vw_coupes_cables_projet_geom coupes_cables ON coupes_cables.id_obr = obrv.idobr_obrv
+		
+WHERE obrv.idorc_obrv IN (4,18) 
 	AND obrv.idprj_obrv != 1 
 	AND brfv.idprj_brfv != 1
-	--AND ST_GeometryType(brfv.the_geom) = 'ST_LineString'
 	;

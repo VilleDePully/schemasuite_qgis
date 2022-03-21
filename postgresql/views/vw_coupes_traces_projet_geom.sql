@@ -1,6 +1,6 @@
-DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_traces_geom_projet;
+DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_traces_projet_geom;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_traces_geom_projet
+CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_traces_projet_geom
 TABLESPACE pg_default
 AS
  SELECT cupv.idobr_cupv AS id_obr,
