@@ -25,4 +25,4 @@ Certaines vues ont été transformées en vues matérialisées pour une meilleur
 
 Ceci est du Work In Progress (WIP) 
 
-![Exemple de rendu : cadastre électrique](../images/qgis/Cadastre_electrique.png?raw=true "Exemple de rendu : cadastre électrique")
+![Exemple de rendu : cadastre électrique](images/qgis/Cadastre_electrique.png?raw=true "Exemple de rendu : cadastre électrique")
