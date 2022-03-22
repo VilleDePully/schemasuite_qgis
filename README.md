@@ -54,7 +54,6 @@ Liste des objets exportés actuellement
  - coupes_cables_projet_geom
  - coupes_traces
  - coupes_traces_geom
- - coupes_traces_geom_projet
  - coupes_traces_projet
  - coupes_traces_projet_geom
  - coupes_tubes
