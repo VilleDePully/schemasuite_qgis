@@ -8,6 +8,7 @@ SELECT
 	obrv.modele_obrv AS modele,
 	obrv.nom_obrv as nom,
 	eta.libelle_eta as etat,
+	cof.intensiteinstalle_cof as intensite_installee,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.observation_obrv as remarque,
@@ -23,6 +24,7 @@ SELECT
 	
 FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.objetreseauversion_obrv obrv ON v_obrvl.id_obrv = obrv.id_obrv
+	LEFT JOIN dbo.coffretintroduction_cof cof ON v_obrvl.id_obrv = cof.id_obrv
 	LEFT JOIN dbo.noeudfeatureversion_ndfv ndfv ON  ndfv.idobr_ndfv = v_obrvl.idparent_cmp
 	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = v_obrvl.idparent_cmp
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
