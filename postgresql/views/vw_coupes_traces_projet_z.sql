@@ -4,26 +4,29 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_traces_projet
 TABLESPACE pg_default
 AS
  SELECT 
-   obrv.id_obrv as id_obrv,
-    obrv.idobr_obrv AS id_obr,
+    obrv.id_obrv as id_obrv,
+    obrv.idobr_obrv as id_obr,
     obrv.modele_obrv AS modele,
-    obrv.nom_obrv AS nom,
+    obrv.code_obrv AS code,
+    obrv.nom_obrv as nom,
+    obrv.racineguid_obrv as guid_racine,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
     ROUND(ST_LENGTH(trav.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
     prc.value_fr AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
-    eta.libelle_eta as etat,
+    eta.libelle_eta as etat_deploiement,
+    prt.libelle_prt	as type_propriete,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
-    obrv.observation_obrv as remarque,
+    obrv.observation_obrv as observation,
     prj.id_prj AS projet_id,
     prj.nom_prj AS projet_nom,
     prj.description_prj AS projet_description,
     prj.etat_prj AS projet_etat,
     obrv.creationdate_obrv AS date_creation,
-	  obrv.modificationdate_obrv AS date_modification,
+    obrv.modificationdate_obrv AS date_modification,
 	CASE
 		WHEN obrv.state_obrv = 0 THEN 'Cree'
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'

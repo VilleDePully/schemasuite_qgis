@@ -4,21 +4,24 @@ CREATE OR REPLACE VIEW export.vw_traces
  AS
  SELECT
     obrv.id_obrv as id_obrv,
-    obrv.idobr_obrv AS id_obr,
+    obrv.idobr_obrv as id_obr,
     obrv.modele_obrv AS modele,
-    obrv.nom_obrv AS nom,
+    obrv.code_obrv AS code,
+    obrv.nom_obrv as nom,
+    obrv.racineguid_obrv as guid_racine,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
     ROUND(ST_LENGTH(trav.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
     prc.value_fr AS precision,
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
-    eta.libelle_eta as etat,
+    eta.libelle_eta as etat_deploiement,
+    prt.libelle_prt	as type_propriete,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
-    obrv.observation_obrv as remarque,
+    obrv.observation_obrv as observation,
     obrv.creationdate_obrv AS date_creation,
-	  obrv.modificationdate_obrv AS date_modification,
+    obrv.modificationdate_obrv AS date_modification,
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv
