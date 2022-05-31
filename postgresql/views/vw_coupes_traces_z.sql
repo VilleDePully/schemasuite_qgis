@@ -17,6 +17,7 @@ AS
     acc.libelle_acc AS accessibilite,
     pos.libelle_pos AS mode_pose,
     eta.libelle_eta as etat_deploiement,
+    ete.libelle_ete as etat_entretien,
     prt.libelle_prt as type_propriete,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
@@ -31,7 +32,9 @@ AS
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
      LEFT JOIN dbo.trace_trc trc ON trc.id_obrv = obrv.id_obrv
      LEFT JOIN mapped.precision prc ON prc.id_prec = trc.precision_trc
-     LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
+     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
+     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
+     LEFT JOIN dbo.nproprietetype_ete prt ON prt.id_prt = obrv.idproprietetype_obrv
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
