@@ -39,6 +39,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+	
 WHERE obrv.idorc_obrv IN (4,18) 
 	AND obrv.idprj_obrv = 1 
 	AND brfv.idprj_brfv = 1; -- cable générique, electrique

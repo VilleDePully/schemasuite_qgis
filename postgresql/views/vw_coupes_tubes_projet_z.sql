@@ -28,6 +28,7 @@ AS SELECT
     prj.etat_prj AS projet_etat,
     obrv.creationdate_obrv AS date_creation,
     obrv.modificationdate_obrv AS date_modification,
+    enf.nombre_enfants AS nombre_cables,
     CASE
       WHEN obrv.state_obrv = 0 THEN 'Cree'
       WHEN obrv.state_obrv = 1 THEN 'Modifie'
@@ -47,6 +48,7 @@ AS SELECT
      LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
      LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
+     LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
      INNER JOIN export.vw_coupes_tubes_projet_geom coupes_tubes ON coupes_tubes.id_obr = obrv.idobr_obrv
 
   	WHERE obrv.idorc_obrv = 2 

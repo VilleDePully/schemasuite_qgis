@@ -46,7 +46,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.chambre_tkr tkr ON tkr.id_obrv = obrv.id_obrv
-	-- 46 chambre
+	
 WHERE obrv.idorc_obrv = 46 
 	AND obrv.idprj_obrv = 1 
-	AND ndfv.idprj_ndfv = 1; 
+	AND ndfv.idprj_ndfv = 1; -- 46 chambre

@@ -21,6 +21,7 @@ SELECT
 	praf.libelle_pra as fournisseur,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	enf.nombre_enfants AS nombre_cables,
 	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
@@ -32,6 +33,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
+	LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
 WHERE obrv.idorc_obrv = 2 
 	AND obrv.idprj_obrv = 1 
 	AND cofv.idprj_cofv = 1; -- conduites

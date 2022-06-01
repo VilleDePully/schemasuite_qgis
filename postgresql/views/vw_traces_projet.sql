@@ -44,6 +44,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
+     LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
      
    WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv != 1 
