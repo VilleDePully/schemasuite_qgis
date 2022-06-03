@@ -7,7 +7,6 @@ SELECT
 	prj.id_prj AS id,
 	prj.nom_prj AS nom,
 	prj.description_prj AS description,
-	prj.etat_prj AS etat,
 	CASE
 		WHEN prj.etat_prj = 0 THEN 'En travaux'
 		WHEN prj.etat_prj = 1 THEN 'A publier'
