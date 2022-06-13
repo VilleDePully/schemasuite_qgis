@@ -30,6 +30,26 @@ AS SELECT
 	END type_hierarchique,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	--Attributs spécifiques
+	tyc.type_tyc as type_cablage,
+	cae.resisolementrs_cae AS resistance_isolation_rs, --L1-L2
+	cae.resisolementst_cae AS resistance_isolation_st, --L2-L3
+	cae.resisolementrt_cae AS resistance_isolation_rt, --L1-L3
+	cae.dtresisolementphasephase_cae AS date_mesure_resistance_isolement_phase_phase,
+	cae.resisolementrn_cae AS resistance_isolation_rn, --L1-PE
+	cae.resisolementsn_cae AS resistance_isolation_sn, --L2-PE
+	cae.resisolementtn_cae AS resistance_isolation_tn, --L3-PE
+	cae.dtresisolementphasepe_cae AS date_mesure_resistance_isolement_phase_pe,
+	cae.mesdechargepartielle_cae AS mesure_decharges_partielles,
+	cae.section_cae AS section,
+	cae.sectionaffiche_cae AS section_affichee,
+	cae.tensionnominale_cae AS tension_nominale,
+	cae.courantadmissible_cae AS courant_admissible,
+	cae.courantadm24heures_cae AS courant_admissible_24h,
+	cae.reslineique_cae AS resistance_lineique,
+	cae.indlineique_cae AS inductance_lineique,
+	cae.caplineique_cae AS capacite_lineique,
+	--Geometry
     coupes_cables.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
     --  ST_Force2D(coupes_cables.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex	
@@ -43,6 +63,8 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+	LEFT JOIN dbo.cableelectrique_cae cae ON cae.id_obrv = obrv.id_obrv
+	LEFT JOIN dbo.ntypecablage_tyc tyc ON cae.idtyc_cae = tyc.id_tyc
     INNER JOIN export.vw_coupes_cables_geom coupes_cables ON coupes_cables.id_obr = obrv.idobr_obrv
 		
 WHERE obrv.idorc_obrv IN (4,18) 

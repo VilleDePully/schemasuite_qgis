@@ -13,6 +13,7 @@ SELECT
 		WHEN prj.etat_prj = 2 THEN 'A supprimer'
 		WHEN prj.etat_prj = 3 THEN 'Temporaire'
 	END etat,
+	--Geometry
 	CASE 
 		WHEN ST_geometrytype(the_geom) = 'ST_Point' 
 			THEN ST_Buffer(ST_SetSRID(the_geom,2056),10)

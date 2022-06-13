@@ -22,6 +22,7 @@ SELECT
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	enf.nombre_enfants AS nombre_cables,
+	--Geometry
 	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv

@@ -31,6 +31,7 @@ SELECT
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
+	--Geometry
 	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv

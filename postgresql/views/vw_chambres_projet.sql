@@ -36,11 +36,13 @@ SELECT
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
+	--Attributs spécifiques
 	tkr.hauteur_tkr AS longueur,
 	tkr.largeur_tkr AS largeur,
 	tkr.profondeur_tkr AS profondeur,
 	tkr.forme_tkr AS forme,
 	tkr.couvercles_tkr AS couvercles,
+	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	

@@ -27,6 +27,7 @@ SELECT
 	nodv.datedecontrole_nodv as date_controle,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	--Attributs spécifiques
 	cof.impendance_cof AS impedance,
 	cof.icc_cof AS icc,
 	gco.nom_gco AS genre,
@@ -40,6 +41,7 @@ SELECT
 	cof.nopolice_cof as no_police,
 	cof.pmaxfeg_cof as puissance_max_feg,
 	cof.resisolation_cof as resistance_isolation,
+	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	

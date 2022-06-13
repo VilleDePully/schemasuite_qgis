@@ -31,6 +31,7 @@ SELECT
 	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	--Attributs spécifiques
 	cof.impendance_cof AS impedance,
 	cof.icc_cof AS icc,
 	gco.nom_gco AS genre,
@@ -49,6 +50,7 @@ SELECT
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
+	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	

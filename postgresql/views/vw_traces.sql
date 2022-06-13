@@ -24,6 +24,7 @@ CREATE OR REPLACE VIEW export.vw_traces
     obrv.creationdate_obrv AS date_creation,
     obrv.modificationdate_obrv AS date_modification,
     enf.nombre_enfants AS nombre_tubes,
+    --Geometry
     ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv

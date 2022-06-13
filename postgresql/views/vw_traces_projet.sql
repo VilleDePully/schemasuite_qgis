@@ -32,7 +32,8 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
-    ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
+  --Geometry
+  ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
    FROM dbo.objetreseauversion_obrv obrv
      LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
