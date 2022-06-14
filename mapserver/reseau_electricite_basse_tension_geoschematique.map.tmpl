@@ -1,0 +1,459 @@
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_stations'
+	TYPE POINT
+	MAXSCALEDENOM 10000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_noeud AS geo WHERE type_noeud = 'Station' AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_stations'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_stations'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Sous-stations'
+		STYLE
+			SYMBOL "e_station"
+			SIZE 15.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+  END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_armoires'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_noeud AS geo WHERE type_noeud IN ('Armoire simple','Armoire double','Armoire triple','Armoire quadruple','Armoire inconnu') AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_armoires'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_armoires'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Armoires simples'
+    EXPRESSION ("[type_noeud]" == "Armoire simple")
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 12.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+	CLASS
+		NAME 'Armoires doubles'
+    EXPRESSION ("[type_noeud]" == "Armoire double")
+		STYLE
+			SYMBOL "e_kabine_double"
+			SIZE 15.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+	CLASS
+		NAME 'Armoires triples'
+    EXPRESSION ("[type_noeud]" == "Armoire triple")
+		STYLE
+			SYMBOL "e_kabine_triple"
+			SIZE 18.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+	CLASS
+		NAME 'Armoires quadruples'
+    EXPRESSION ("[type_noeud]" == "Armoire quadruple")
+		STYLE
+			SYMBOL "e_kabine_quadruple"
+			SIZE 21.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+	CLASS
+		NAME 'Armoires inconnues'
+    EXPRESSION ("[type_noeud]" == "Armoire inconnu")
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 12.0
+      ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+    TEXT '[puissance]$[identification]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_manchons'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_noeud AS geo WHERE type_noeud = 'Manchon' AND statut != 'Fictif' AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_manchons'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_manchons'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Manchons'
+		STYLE
+			SYMBOL "Circle"
+			SIZE 8.0
+			OUTLINECOLOR 0 141 189
+			COLOR 255 255 255
+		END
+    TEXT '[puissance]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+    END
+	END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_consommateurs'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_noeud AS geo WHERE type_noeud = 'Consommateur' AND statut != 'Fictif' AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_consommateurs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_consommateurs'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Consommateurs'
+		STYLE
+			SYMBOL "triangle4"
+			SIZE 10.0
+			OUTLINECOLOR 0 141 189
+			COLOR 255 255 255
+      ANGLE [orientation]
+		END
+    TEXT '[puissance]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+    END
+	END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_petites_connexions'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_noeud AS geo WHERE type_noeud = 'Petite connexion' AND statut != 'Fictif' AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_manchons'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_manchons'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Petites connexions'
+		STYLE
+			SYMBOL "square"
+			SIZE 6.0
+			OUTLINECOLOR 0 141 189
+			COLOR 255 255 255
+		END
+    TEXT '[puissance]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+    END
+	END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_bouclage'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_bouclage AS geo WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_bouclage'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_bouclage'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Bouclages'
+		STYLE
+			SYMBOL "circle"
+			SIZE 8.0
+			OUTLINECOLOR 255 0 0
+			COLOR 255 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pully_geoschematique_basse_tension_ligne'
+	TYPE LINE
+	DUMP true
+	MAXSCALEDENOM 10000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite.geoschematique_basse_tension_ligne AS geo WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pully_geoschematique_basse_tension_ligne'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pully_geoschematique_basse_tension_ligne'
+    'ows_layer_group' '/electricite/ele_geoschematique'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,type_schematique,id_noeud_depart,id_noeud_arrivee"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "LINE" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Câbles'
+		STYLE
+			WIDTH 1.8
+			OUTLINECOLOR 0 141 189
+		END
+		TEXT '[type_materiel] [type_coupe]'
+		LABEL
+			MAXSCALEDENOM 500
+			FONT tahoma_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 141 189
+			POSITION AUTO
+      ANGLE AUTO
+    END
+	END
+END

@@ -1,0 +1,742 @@
+
+LAYER
+  NAME 'ppb_ele_reseau_lineaire'
+  TYPE LINE
+  DUMP true
+  TEMPLATE fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE postgis
+  PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+  CONNECTION "${MAPSERVER_CONNECTION}"
+  DATA "the_geom FROM (SELECT geo.id,geo.the_geom FROM electricite_new.traces AS geo WHERE geo.commune LIKE 'Pully') AS foo using unique id USING srid=2056"
+  VALIDATION
+     "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+  END
+  METADATA
+    'ows_title' 'ppb_ele_reseau_lineaire'
+    'ows_layer_group' '/electricite/ele_reseau'
+    #"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+    #"gml_exclude_items" "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+    #"ows_geom_type" "LINE" #For returning geometries in GetFeatureInfo
+    #"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+    
+  END
+  STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+  PROJECTION
+  "init=epsg:2056"
+  END
+  CLASS
+     NAME "Réseau d'électricité"
+     STYLE
+     WIDTH 1.2
+     COLOR 255 0 0
+           PATTERN 30 5 END
+     END
+  END
+END
+
+LAYER
+	NAME 'pb_ele_traces'
+	TYPE LINE
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.traces AS geo 
+    WHERE etat_deploiement = 'En service' OR etat_deploiement IS NULL 
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_traces'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_traces'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "LINE" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+	COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+
+  CLASS
+		NAME 'Précis'
+    EXPRESSION ("[precision]" == "Précis")
+		STYLE
+			WIDTH 1
+			COLOR 255 0 0
+		END
+	END
+	CLASS
+		NAME 'Imprécis'
+		STYLE
+			WIDTH 1
+			COLOR 255 0 0
+			PATTERN 5.0 5.0 END
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_traces_hs'
+	TYPE LINE
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.traces AS geo 
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_traces_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_traces_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "LINE" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+	COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+
+  CLASS
+		NAME 'Précis'
+    EXPRESSION ("[precision]" == "Précis")
+		STYLE
+			WIDTH 1
+			COLOR 0 0 0
+		END
+	END
+	CLASS
+		NAME 'Imprécis'
+		STYLE
+			WIDTH 1
+			COLOR 0 0 0
+			PATTERN 5.0 5.0 END
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_nappes'
+	TYPE POLYGON
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.nappes AS geo 
+    WHERE etat_deploiement = 'En service' OR etat_deploiement IS NULL 
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_nappes'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_nappes'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "POLYGON" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 50
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Emprise des nappes'
+		STYLE
+			WIDTH 0.91
+      COLOR 255 255 255
+			OUTLINECOLOR 150 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_nappes_hs'
+	TYPE POLYGON
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.nappes AS geo 
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_nappes_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_nappes_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "POLYGON" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 50
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Emprise des nappes hors service'
+		STYLE
+			WIDTH 0.91
+      COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_stations'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 40000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.stations as geo WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_stations'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_stations'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+  LABELITEM 'nom'
+	CLASS
+		NAME 'Sous-stations'
+		LABEL
+			FONT arial_bold
+			TYPE truetype
+			SIZE 10
+			COLOR 255 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_station"
+			SIZE 16.0
+			COLOR 240 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_armoires'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 5000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.armoires AS geo 
+    WHERE (etat_deploiement = 'En service' OR etat_deploiement IS NULL)
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_armoires'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_armoires'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+  LABELITEM 'nom'
+	CLASS
+		NAME 'Armoires simples'
+    EXPRESSION ("[type_noeud]" == "Armoire simple")
+		LABEL
+			FONT tahoma
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 12.0
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+	CLASS
+		NAME 'Armoires doubles'
+    EXPRESSION ("[type_noeud]" == "Armoire double")
+		LABEL
+			FONT tahoma
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine_double"
+			SIZE 12.0
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+	CLASS
+		NAME 'Armoires triples'
+    EXPRESSION ("[type_noeud]" == "Armoire triple")
+		LABEL
+			FONT tahoma
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine_triple"
+			SIZE 12.0
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+	CLASS
+		NAME 'Armoires quadruples'
+    EXPRESSION ("[type_noeud]" == "Armoire quadruple")
+		LABEL
+			FONT tahoma
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine_quadruple"
+			SIZE 12.0
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+  CLASS
+		NAME 'Armoires inconnues'
+		LABEL
+			FONT tahoma
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 12.0
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_armoires_hs'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 5000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.armoires AS geo 
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_armoires_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_armoires_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+  LABELITEM 'nom'
+	CLASS
+		NAME 'Armoires hors service'
+		LABEL
+			FONT arial
+			TYPE truetype
+			SIZE 9
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+			POSITION uc
+		END
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 10.0
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_coffrets'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.coffrets AS geo 
+    WHERE (etat_deploiement = 'En service' OR etat_deploiement IS NULL)
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coffrets'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_coffrets'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Coffrets'
+		STYLE
+			SYMBOL "triangle4"
+			SIZE 12.0
+			COLOR 255 255 255
+			OUTLINECOLOR 255 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_coffrets_hs'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.coffrets AS geo 
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coffrets_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_coffrets_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Coffrets hors service'
+		STYLE
+			SYMBOL "triangle4"
+			SIZE 12.0
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_manchons'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 1000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.manchons AS geo 
+    WHERE (etat_deploiement = 'En service' OR etat_deploiement IS NULL)
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_manchons'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_manchons'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,gid,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Manchons'
+    # EXPRESSION ("[etat_deploiement]" != "Hors Service" OR "[etat_deploiement]" = NULL)
+		STYLE
+			SYMBOL "circle"
+			SIZE 8.0
+			COLOR 255 255 255
+			OUTLINECOLOR 255 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_manchons_hs'
+	TYPE POINT
+	DUMP true
+	MAXSCALEDENOM 1000
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.manchons AS geo 
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_manchons_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_manchons_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items" "id,gid,orientation"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Manchons hors service'
+    # EXPRESSION ("[etat_deploiement]" != "Hors Service" OR "[etat_deploiement]" = NULL)
+		STYLE
+			SYMBOL "circle"
+			SIZE 8.0
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_constructions_genie_civil'
+	TYPE POLYGON
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.constructions_genie_civil AS geo
+    WHERE etat_deploiement = 'En service' OR etat_deploiement IS NULL
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_constructions_genie_civil'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_constructions_genie_civil'
+    'ows_layer_group' '/electricite/ele_reseau'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "POLYGON" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 50
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Emprises des ouvrages'
+		STYLE
+			WIDTH 0.91
+      COLOR 255 0 0
+			OUTLINECOLOR 150 0 0
+		END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_constructions_genie_civil_hs'
+	TYPE POLYGON
+	DUMP true
+	MAXSCALEDENOM 2500
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* FROM electricite_new.constructions_genie_civil AS geo
+    WHERE etat_deploiement != 'En service'
+    AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_constructions_genie_civil_hs'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_constructions_genie_civil_hs'
+    'ows_layer_group' '/electricite/ele_reseau_hs'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "POLYGON" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 50
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Emprises des ouvrages hors service'
+		STYLE
+			WIDTH 0.91
+      COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END

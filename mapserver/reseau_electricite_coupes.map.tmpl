@@ -1,0 +1,454 @@
+
+LAYER
+  NAME           "ele_coupes_lien"
+  TYPE           LINE
+  MAXSCALEDENOM  450
+  STATUS         ON
+  COMPOSITE
+    OPACITY 100
+  END
+  PROJECTION
+    "init=epsg:2056" 
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (
+                    SELECT *
+                    FROM electricite_new.coupes_lien AS geo
+                    WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coupes_new'), ST_SetSRID(geo.the_geom, 2056))
+                  ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupes_lien"
+      "ows_layer_group"    "/electricite/coupes/pb_ele_coupes_new"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  ""
+      "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "multiline"
+  END
+
+  CLASS
+      STYLE
+          WIDTH 1.5
+          COLOR 0 0 0
+      END
+  END
+END
+
+
+LAYER
+  NAME           "ele_coupes_traces"
+  TYPE           POLYGON
+  MAXSCALEDENOM    450
+  STATUS         ON
+  COMPOSITE
+    OPACITY 60
+  END
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *
+                    FROM electricite_new.coupes_traces AS geo
+                    WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'ele_coupes_traces'), ST_SetSRID(geo.the_geom, 2056))
+                  ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupes_traces"
+      "ows_layer_group"    "/electricite/coupes"
+      "ows_srs"            "epsg:2056"
+      #"gml_include_items"  ""
+	    #"gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "MultiPolygon"
+  END
+  COMPOSITE
+    OPACITY 60
+  END
+
+  CLASS
+    EXPRESSION (('[mode_pose]' == 'Beton') AND ('[accessibilite]' == 'Accessible'))
+    NAME 'Tronçon bétonné accessible'
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      SYMBOL 'hatch'
+      SIZE 1.5
+      COLOR 125 125 125
+      WIDTH 1.5
+      ANGLE 45
+    END
+    STYLE
+      SYMBOL 'hatch'
+      SIZE 5
+      COLOR 125 125 125
+      WIDTH 1.5
+      ANGLE 135
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+      PATTERN 10.0 10.0 END
+    END
+  END
+  CLASS
+    EXPRESSION (('[mode_pose]' == 'Gravier/Sable/Terre') AND ('[accessibilite]' == 'Accessible'))
+    NAME 'Tronçon Gravier/Sable/Terre accessible'
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      SYMBOL 'gravier_sable_terre'
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+      PATTERN 10.0 10.0 END
+    END
+  END
+  CLASS
+    NAME 'Accessible'
+    EXPRESSION ('[accessibilite]' == 'Accessible')
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+      PATTERN 10.0 10.0 END
+    END
+  END
+  CLASS
+    EXPRESSION ('[mode_pose]' == 'Beton')
+    NAME 'Tronçon bétonné inaccessible'
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      SYMBOL 'hatch'
+      SIZE 5
+      COLOR 125 125 125
+      WIDTH 1.5
+      ANGLE 45
+    END
+    STYLE
+      SYMBOL 'hatch'
+      SIZE 5
+      COLOR 125 125 125
+      WIDTH 1.5
+      ANGLE 135
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+    END
+  END
+  CLASS
+    EXPRESSION ('[mode_pose]' == 'Gravier/Sable/Terre')
+    NAME 'Tronçon Gravier/Sable/Terre inaccessible'
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      SYMBOL 'gravier_sable_terre'
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+    END
+  END
+  CLASS
+    NAME 'Inaccessible'
+    STYLE
+      COLOR 255 255 255
+    END
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+    END
+  END
+END
+
+
+LAYER
+  NAME           "ele_coupes_tubes"
+  TYPE           POLYGON
+  MAXSCALEDENOM  450
+  STATUS         ON
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *
+                    FROM electricite_new.coupes_tubes AS geo
+                    WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'ele_coupes_tubes'), ST_SetSRID(geo.the_geom, 2056))
+                  ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupes_tubes"
+      "ows_layer_group"    "/electricite/coupes"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  "all"
+      "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "MultiPolygon"
+  END
+
+  CLASS
+    NAME 'Tube'
+    STYLE
+      WIDTH 1.5
+      OUTLINECOLOR 0 0 0
+      COLOR 255 255 255
+    END
+  END
+END
+
+
+LAYER
+  NAME           "ele_coupes_cables"
+  TYPE           POLYGON
+  MAXSCALEDENOM    450
+  STATUS         ON
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *
+                   FROM electricite_new.coupes_cables AS geo
+                   WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'ele_coupes_cables'), ST_SetSRID(geo.the_geom, 2056))
+                 ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupes_cables"
+      "ows_layer_group"    "/electricite/coupes"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  "all"
+	    "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "MultiPolygon"
+  END
+
+  CLASS
+    NAME 'Câble basse tension'
+    EXPRESSION (('[etat_deploiement]'!='Hors Service' AND '[etat_deploiement]'!='Supprimé') AND '[tension]'=='BT')
+    STYLE
+      COLOR 0 141 189
+    END
+  END
+  CLASS
+    NAME 'Câble éclairage public'
+    EXPRESSION (('[etat_deploiement]'!='Hors Service' AND '[etat_deploiement]'!='Supprimé') AND '[tension]'=='EP')
+    STYLE
+      COLOR 123 77 57
+    END
+  END
+  CLASS
+    NAME 'Câble autre'
+    EXPRESSION ('[etat_deploiement]'!='Hors Service' AND '[etat_deploiement]'!='Supprimé')
+    STYLE
+      COLOR 0 255 0
+    END
+  END
+  CLASS
+    NAME 'Câble hors-service'
+    EXPRESSION ('[etat_deploiement]'=='Hors Service' OR '[etat_deploiement]'=='Supprimé')
+    STYLE
+      COLOR 0 0 0
+    END
+  END
+END
+
+
+
+LAYER
+  NAME           "ele_coupe_text_tubes"
+  TYPE           POINT
+  MAXSCALEDENOM    200
+  SYMBOLSCALEDENOM 100
+  STATUS         ON
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *,90.0-orientation as norientation
+                             FROM electricite_new.coupe_text_tubes AS geo
+                             WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coupes_new'), ST_SetSRID(geo.the_geom, 2056))
+                             ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupe_text_tubes"
+      "ows_layer_group"    "/electricite/coupes/pb_ele_coupes_new"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  ""
+	    "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "POINT"
+  END
+
+    LABELITEM "libelle"
+    CLASS
+        STYLE END
+        LABEL
+            TYPE         TRUETYPE
+            FONT         "arial"
+            SIZE         9
+            ANTIALIAS    TRUE
+            COLOR        0 0 0
+            POSITION     LR
+            ANGLE        [norientation]
+            FORCE        TRUE
+            ANTIALIAS    TRUE
+        END
+    END
+END
+
+LAYER
+  NAME           "ele_coupe_text_cables"
+  TYPE           POINT
+  MAXSCALEDENOM    200
+  SYMBOLSCALEDENOM 100
+  STATUS         ON
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *,90.0-orientation as norientation
+                   FROM electricite_new.coupe_text_cables AS geo
+                   WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coupes_new'), ST_SetSRID(geo.the_geom, 2056))
+                 ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupe_text_cables"
+      "ows_layer_group"    "/electricite/coupes/pb_ele_coupes_new"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  ""
+	    "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "POINT"
+  END
+
+    LABELITEM "libelle"
+    CLASS
+        STYLE END
+        LABEL
+            TYPE         TRUETYPE
+            FONT         "arial"
+            SIZE         9
+            ANTIALIAS    TRUE
+            COLOR        0 0 0
+            POSITION     LR
+            ANGLE        [norientation]
+            FORCE        TRUE
+            ANTIALIAS    TRUE
+        END
+    END
+END
+
+LAYER
+  NAME           "ele_coupe_text_num_tubes"
+  TYPE           POINT
+  MAXSCALEDENOM    200
+  SYMBOLSCALEDENOM 100
+  STATUS         ON
+  PROJECTION
+    "init=epsg:2056"
+  END
+  TEMPLATE       fooOnlyForWMSGetFeatureInfo
+  EXTENT ${PPBSL_EXTENT}
+  CONNECTIONTYPE POSTGIS
+  PROCESSING     "CLOSE_CONNECTION=DEFER"
+  CONNECTION     "${MAPSERVER_CONNECTION}"
+  DATA           "the_geom FROM (SELECT *,90.0-orientation as norientation
+                             FROM electricite_new.coupe_text_num_tubes AS geo
+                             WHERE ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_coupes_new'), ST_SetSRID(geo.the_geom, 2056))
+                             ) AS foo USING UNIQUE id USING srid=2056"
+  DUMP           TRUE
+  VALIDATION
+    "default_role_ids" "-1"
+    "role_ids" "^-?[0-9,]*$"
+  # For secured layers
+  END
+  METADATA
+      "ows_title"          "ele_coupe_text_num_tubes"
+      "ows_layer_group"    "/electricite/coupes/pb_ele_coupes_new"
+      "ows_srs"            "epsg:2056"
+      "gml_include_items"  ""
+	    "gml_exclude_items"  "id,id_obrv,code,guid_racine"
+      "ows_geometries"     "geom"
+      "ows_geom_type"      "POINT"
+  END
+
+    LABELITEM "libelle"
+    CLASS
+        STYLE END
+        LABEL
+            TYPE         TRUETYPE
+            FONT         "arial"
+            SIZE         8
+            ANTIALIAS    TRUE
+            COLOR        0 0 0
+            OUTLINECOLOR 255 255 255
+            OUTLINEWIDTH 3
+            POSITION     UC
+            ANGLE        [norientation]
+            FORCE        TRUE
+            ANTIALIAS    TRUE
+        END
+    END
+END

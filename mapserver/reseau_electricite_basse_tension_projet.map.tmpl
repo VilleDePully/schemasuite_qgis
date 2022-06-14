@@ -1,0 +1,379 @@
+
+LAYER
+	NAME 'pb_ele_bt_cables_projet'
+	TYPE LINE
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM ( SELECT geo.* 
+                        FROM electricite_new.cables_projet AS geo 
+                        WHERE statut = 'Cree'
+                        AND tension = 'BT'
+                        AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_bt_cables_projet'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_bt_cables_projet'
+    'ows_layer_group' '/electricite/basse_tension'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "LINE" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+
+	CLASS
+		NAME 'Câbles'
+		STYLE
+			WIDTH 1.8
+			OUTLINECOLOR 0 157 87
+		END
+		TEXT '[modele]'
+		LABEL
+			MAXSCALEDENOM 950
+			FONT arial_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 157 87
+			POSITION AUTO
+      ANGLE AUTO
+    END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_bt_stations_projet'
+	TYPE POINT
+	MAXSCALEDENOM 10000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM (SELECT geo.* 
+                       FROM electricite_new.stations_projet AS geo 
+                       WHERE statut = 'Cree'
+                       AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_bt_stations_projet'),ST_SetSRID(geo.the_geom, 2056))) as foo USING UNIQUE id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_bt_stations_projet'
+    'ows_layer_group' '/electricite/basse_tension'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Sous-stations'
+		STYLE
+			SYMBOL "e_station"
+			SIZE 15.0
+      #ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 157 87
+		END
+    TEXT '[nom]' # $[puissance]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT arial_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+  END
+END
+
+
+LAYER
+	NAME 'pb_ele_bt_armoires_projet'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM ( SELECT geo.* 
+                        FROM electricite_new.armoires_projet AS geo 
+                        WHERE statut = 'Cree'
+                        AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_bt_armoires_projet'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_bt_armoires_projet'
+    'ows_layer_group' '/electricite/basse_tension'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Armoires'
+    # EXPRESSION ("[type_noeud]" == "Armoire simple")
+		STYLE
+			SYMBOL "e_kabine"
+			SIZE 12.0
+      # ANGLE [orientation]
+      COLOR 255 255 255
+			OUTLINECOLOR 0 157 87
+		END
+    TEXT '[nom]' # $[puissance]'
+		LABEL
+			MAXSCALEDENOM 2500
+			FONT arial_bold
+			TYPE truetype
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 0 0 0
+      POSITION AUTO
+      WRAP "$"
+    END
+	END
+	# CLASS
+		# NAME 'Armoires'
+    # EXPRESSION ("[type_noeud]" == "Armoire double")
+		# STYLE
+			# SYMBOL "e_kabine_double"
+			# SIZE 15.0
+      # ANGLE [orientation]
+      # COLOR 255 255 255
+			# OUTLINECOLOR 0 141 189
+		# END
+    # TEXT '[puissance]$[identification]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+      # WRAP "$"
+    # END
+	# END
+	# CLASS
+		# NAME 'Armoires triples'
+    # EXPRESSION ("[type_noeud]" == "Armoire triple")
+		# STYLE
+			# SYMBOL "e_kabine_triple"
+			# SIZE 18.0
+      # ANGLE [orientation]
+      # COLOR 255 255 255
+			# OUTLINECOLOR 0 141 189
+		# END
+    # TEXT '[puissance]$[identification]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+      # WRAP "$"
+    # END
+	# END
+	# CLASS
+		# NAME 'Armoires quadruples'
+    # EXPRESSION ("[type_noeud]" == "Armoire quadruple")
+		# STYLE
+			# SYMBOL "e_kabine_quadruple"
+			# SIZE 21.0
+      # ANGLE [orientation]
+      # COLOR 255 255 255
+			# OUTLINECOLOR 0 141 189
+		# END
+    # TEXT '[puissance]$[identification]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+      # WRAP "$"
+    # END
+	# END
+	# CLASS
+		# NAME 'Armoires inconnues'
+    # EXPRESSION ("[type_noeud]" == "Armoire inconnu")
+		# STYLE
+			# SYMBOL "e_kabine"
+			# SIZE 12.0
+      # ANGLE [orientation]
+      # COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+		# END
+    # TEXT '[puissance]$[identification]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+      # WRAP "$"
+    # END
+	# END
+END
+
+
+LAYER
+	NAME 'pb_ele_bt_manchons_projet'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM ( SELECT geo.* 
+                        FROM electricite_new.manchons_projet AS geo 
+                        WHERE statut = 'Cree'
+                        AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_bt_manchons_projet'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_bt_manchons_projet'
+    'ows_layer_group' '/electricite/basse_tension'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Manchons'
+		STYLE
+			SYMBOL "Circle"
+			SIZE 8.0
+			OUTLINECOLOR 0 157 87
+			COLOR 255 255 255
+		END
+    # TEXT '[puissance]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+    # END
+	END
+END
+
+
+LAYER
+	NAME 'pb_ele_bt_coffrets_projet'
+	TYPE POINT
+	MAXSCALEDENOM 5000
+	DUMP true
+	TEMPLATE fooOnlyForWMSGetFeatureInfo
+	EXTENT ${PPBSL_EXTENT}
+	CONNECTIONTYPE postgis
+	PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+	CONNECTION "${MAPSERVER_CONNECTION}"
+	DATA "the_geom FROM ( SELECT geo.* 
+                        FROM electricite_new.coffrets_projet AS geo 
+                        WHERE statut = 'Cree'
+                        AND ST_Intersects((${MAPSERVER_DATA_SUBSELECT} 'pb_ele_bt_coffrets_projet'),ST_SetSRID(geo.the_geom, 2056))) as foo using unique id USING srid=2056"
+    VALIDATION
+      "default_role_ids" "-1"
+      "role_ids" "^-?[0-9,]*$"
+    # For secured layers
+    END
+	METADATA
+		'ows_title' 'pb_ele_bt_coffrets_projet'
+    'ows_layer_group' '/electricite/basse_tension'
+		"gml_include_items" "all"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"gml_exclude_items"  "id,id_obrv,code,guid_racine"  # For GetFeatureInfo and WFS GetFeature (QuerryBuilder)
+		"ows_geom_type" "point" # For returning geometries in GetFeatureInfo
+		"ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+	END
+	STATUS ON
+  COMPOSITE
+    OPACITY 100
+  END
+	PROJECTION
+		"init=epsg:2056"
+	END
+	CLASS
+		NAME 'Consommateurs'
+		STYLE
+			SYMBOL "triangle4"
+			SIZE 10.0
+			OUTLINECOLOR 0 157 87
+			COLOR 255 255 255
+      # ANGLE [orientation]
+		END
+    # TEXT '[puissance]'
+		# LABEL
+			# MAXSCALEDENOM 2500
+			# FONT tahoma_bold
+			# TYPE truetype
+			# SIZE 9
+			# COLOR 255 255 255
+			# OUTLINECOLOR 0 0 0
+      # POSITION AUTO
+    # END
+	END
+END
+
