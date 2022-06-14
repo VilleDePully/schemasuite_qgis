@@ -60,6 +60,8 @@ Liste des objets exportés actuellement
  - coupes_tubes_geom
  - coupes_tubes_projet
  - coupes_tubes_projet_geom
+ - elements_production_projet
+ - elements_production
  - manchons
  - manchons_projet
  - stations
