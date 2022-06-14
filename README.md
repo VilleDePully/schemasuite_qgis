@@ -67,6 +67,8 @@ Liste des objets exportés actuellement
  - stations
  - traces
  - traces_projet
+ - transformateurs
+ - transformateurs_projet
  - tubes
  - tubes_projet
  - zones_fouille
