@@ -5,6 +5,7 @@ CREATE OR REPLACE VIEW export.vw_constructions_genie_civil_projet AS
 SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
+	orc.libelle_orc as classe,
 	obrv.modele_obrv AS modele,
 	obrv.code_obrv AS code,
 	obrv.nom_obrv as nom,
@@ -50,6 +51,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+	LEFT JOIN dbo.nobjetreseauclasse_orc orc ON orc.id_orc= obrv.idorc_obrv
 	
 	-- 8,9,46 armoires, stations, chambres
 WHERE obrv.idorc_obrv IN (8,9,46) 
