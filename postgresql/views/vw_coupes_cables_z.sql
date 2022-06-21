@@ -23,11 +23,6 @@ AS SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	praf.libelle_pra as fournisseur,
-	CASE
-		WHEN obrv.observation_obrv LIKE '%Principale%' THEN 'Principale'
-		WHEN obrv.observation_obrv LIKE '%Connexion%' THEN 'Principale'
-		WHEN obrv.observation_obrv LIKE '%Raccordement%' THEN 'Raccordement'
-	END type_hierarchique,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	--Attributs spécifiques
