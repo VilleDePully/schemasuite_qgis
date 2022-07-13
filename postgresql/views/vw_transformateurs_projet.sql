@@ -12,7 +12,7 @@ SELECT
 	obrv.racineguid_obrv as guid_racine,
 	eta.libelle_eta as etat_deploiement,
 	ete.libelle_ete as etat_entretien,
-	prt.libelle_prt	as type_propriete,
+	prt.libelle_prt as type_propriete,
 	obrv.convention_obrv as num_esti,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
@@ -32,6 +32,8 @@ SELECT
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
 	--Attributs spécifiques
+	copv.noserie_copv as num_serie,
+	copv.noappareil_copv as num_appareil,
 	copv.tensionnominal_copv AS tension_nominale,
 	copv.etatflux_copv AS etat_flux,
 	trf.ucc_trf AS ucc,

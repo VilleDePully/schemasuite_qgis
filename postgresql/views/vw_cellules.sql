@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS export.vw_transformateurs;
+DROP VIEW IF EXISTS export.vw_cellules;
 
-CREATE OR REPLACE VIEW export.vw_transformateurs AS
+CREATE OR REPLACE VIEW export.vw_cellules AS
 
 SELECT
 	obrv.id_obrv as id_obrv,
@@ -12,7 +12,7 @@ SELECT
 	obrv.racineguid_obrv as guid_racine,
 	eta.libelle_eta as etat_deploiement,
 	ete.libelle_ete as etat_entretien,
-	prt.libelle_prt as type_propriete,
+	prt.libelle_prt	as type_propriete,
 	obrv.convention_obrv as num_esti,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
@@ -26,20 +26,7 @@ SELECT
 	copv.noserie_copv as num_serie,
 	copv.noappareil_copv as num_appareil,
 	copv.tensionnominal_copv AS tension_nominale,
-	copv.etatflux_copv AS etat_flux,
-	trf.ucc_trf AS ucc,
-	trf.pertefer_trf AS perte_fer,
-	trf.pertecuivre_trf AS perte_cuivre,
-	trf.typeborne_trf AS type_borne,
-	trf.couplage_trf AS couplage,
-	trf.posinserateur_trf AS position_inserateur,
-	trf.poidstotal_trf AS poids_total,
-	trf.courantprimaire_trf AS intensite_primaire,
-	trf.courantsecondaire_trf AS intensite_secondaire,
-	trf.rapporttension_trf AS rapport_tension,
-	trf.isolation_trf AS isolation_trf,
-	trf.poidshuile_trf AS poids_huile,
-	trf.puissance_trf AS puissance
+	copv.etatflux_copv AS etat_flux
 	--Geometry
 	--st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	--ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
@@ -55,10 +42,9 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	LEFT JOIN dbo.composantversion_copv copv ON copv.id_obrv = obrv.id_obrv 
-	LEFT JOIN dbo.transformateur_trf trf ON trf.id_obrv = obrv.id_obrv
+	LEFT JOIN dbo.composantversion_copv copv ON copv.id_obrv = obrv.id_obrv
 
-WHERE obrv.idorc_obrv IN (41) 
+WHERE obrv.idorc_obrv IN (26) 
 	AND obrv.idprj_obrv = 1
 	--AND ndfv.idprj_ndfv = 1 -- Transformateurs
 	;

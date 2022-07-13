@@ -33,6 +33,8 @@ Liste des objets exportés actuellement
  - cables_projet
  - candelabres
  - candelabres_projet
+ - cellules
+ - cellules_projet
  - chambres
  - chambres_projet
  - coffrets
