@@ -33,7 +33,7 @@ CREATE OR REPLACE VIEW export.vw_traces
      LEFT JOIN mapped.precision prc ON prc.id_prec = trc.precision_trc
      LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
      LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
-     LEFT JOIN dbo.nproprietetype_ete prt ON prt.id_prt = obrv.idproprietetype_obrv
+     LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
      LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
      LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
