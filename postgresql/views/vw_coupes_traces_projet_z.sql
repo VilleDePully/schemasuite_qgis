@@ -9,7 +9,7 @@ AS
     obrv.modele_obrv AS modele,
     obrv.code_obrv AS code,
     obrv.nom_obrv as nom,
-    obrv.racineguid_obrv as guid_racine,
+    lower(obrv.racineguid_obrv) as guid_racine,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,
     ROUND(ST_LENGTH(trav.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,

@@ -9,7 +9,7 @@ SELECT
 	obrv.modele_obrv AS modele,
 	obrv.code_obrv AS code,
 	obrv.nom_obrv as nom,
-	obrv.racineguid_obrv as guid_racine,
+	lower(obrv.racineguid_obrv) as guid_racine,
 	eta.libelle_eta as etat_deploiement,
 	ete.libelle_ete as etat_entretien,
 	prt.libelle_prt as type_propriete,
