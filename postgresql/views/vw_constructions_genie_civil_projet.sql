@@ -24,6 +24,7 @@ SELECT
 	nodv.geoposz_nodv as altitude,
 	nodv.acces_nodv as acces,
 	nodv.emplacement_nodv as emplacement,
+	nodv.typeconstruction_nodv as type_construction,
 	nodv.remarquecontrole_nodv as remarque_controle,
 	nodv.datedecontrole_nodv as date_controle,
 	prj.id_prj AS projet_id,
