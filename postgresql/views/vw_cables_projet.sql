@@ -51,6 +51,7 @@ SELECT
 	cae.reslineique_cae AS resistance_lineique,
 	cae.indlineique_cae AS inductance_lineique,
 	cae.caplineique_cae AS capacite_lineique,
+	case when obrv.idorc_obrv IN (19)  then 1 else 0 end as aerien,
 	--Geometry
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
@@ -66,7 +67,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.cableelectrique_cae cae ON cae.id_obrv = obrv.id_obrv
 	LEFT JOIN dbo.ntypecablage_tyc tyc ON cae.idtyc_cae = tyc.id_tyc
 
-WHERE obrv.idorc_obrv IN (4,18) 
+WHERE obrv.idorc_obrv IN (4,18,19) 
 	AND obrv.idprj_obrv != 1 
 	AND brfv.idprj_brfv != 1
 	AND ST_GeometryType(brfv.the_geom) = 'ST_LineString';

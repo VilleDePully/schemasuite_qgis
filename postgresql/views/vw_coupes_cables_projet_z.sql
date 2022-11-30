@@ -53,6 +53,7 @@ AS SELECT
 	cae.reslineique_cae AS resistance_lineique,
 	cae.indlineique_cae AS inductance_lineique,
 	cae.caplineique_cae AS capacite_lineique,
+	case when obrv.idorc_obrv IN (19)  then 1 else 0 end as aerien,
 	--Geometry
     coupes_cables.geom_multi_polygon as geom_multi_polygon
     --ST_MULTI(ST_UNION(ST_BUFFER(brfv.the_geom::Geometry('LineStringZ', 2056),0.1),
@@ -71,7 +72,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.ntypecablage_tyc tyc ON cae.idtyc_cae = tyc.id_tyc
     INNER JOIN export.vw_coupes_cables_projet_geom coupes_cables ON coupes_cables.id_obr = obrv.idobr_obrv
 		
-WHERE obrv.idorc_obrv IN (4,18) 
+WHERE obrv.idorc_obrv IN (4,18,19) 
 	AND obrv.idprj_obrv != 1 
 	AND brfv.idprj_brfv != 1
 WITH DATA;
