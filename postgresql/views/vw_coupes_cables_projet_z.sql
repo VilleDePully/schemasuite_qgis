@@ -1,10 +1,10 @@
-DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_cables_projet;
+DROP VIEW IF EXISTS export.vw_coupes_cables_projet;
 
 --File is named with _z extension to be run last with FME
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_cables_projet
-TABLESPACE pg_default
-AS SELECT
+CREATE OR REPLACE VIEW export.vw_coupes_cables_projet AS 
+
+SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	obrv.modele_obrv AS modele,
@@ -74,5 +74,4 @@ FROM dbo.objetreseauversion_obrv obrv
 		
 WHERE obrv.idorc_obrv IN (4,18,19) 
 	AND obrv.idprj_obrv != 1 
-	AND brfv.idprj_brfv != 1
-WITH DATA;
+	AND brfv.idprj_brfv != 1;

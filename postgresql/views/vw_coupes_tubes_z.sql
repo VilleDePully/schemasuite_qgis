@@ -1,11 +1,10 @@
-DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_tubes;
+DROP VIEW IF EXISTS export.vw_coupes_tubes;
 
 --File is named with _z extension to be run last with FME
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_tubes
-TABLESPACE pg_default
+CREATE OR REPLACE VIEW export.vw_coupes_tubes AS 
 
-AS SELECT
+SELECT
     obrv.id_obrv as id_obrv,
     obrv.idobr_obrv as id_obr,
     obrv.modele_obrv AS modele,
@@ -46,6 +45,5 @@ AS SELECT
 		
   	WHERE obrv.idorc_obrv = 2 
       AND obrv.idprj_obrv = 1 
-      AND cofv.idprj_cofv = 1
-WITH DATA;
+      AND cofv.idprj_cofv = 1;
 

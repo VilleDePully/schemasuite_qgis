@@ -1,8 +1,7 @@
-DROP MATERIALIZED VIEW IF EXISTS export.vw_coupes_traces_projet;
+DROP VIEW IF EXISTS export.vw_coupes_traces_projet;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS export.vw_coupes_traces_projet 
-TABLESPACE pg_default
-AS
+CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
+
  SELECT 
     obrv.id_obrv as id_obrv,
     obrv.idobr_obrv as id_obr,
@@ -54,5 +53,4 @@ AS
 
   WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv != 1 
-    AND trav.idprj_trav != 1
-  WITH DATA;
+    AND trav.idprj_trav != 1;
