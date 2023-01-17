@@ -17,6 +17,7 @@ SELECT
     prt.libelle_prt as type_propriete,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
+    obrv.horsservicedate_obrv as date_mise_hors_service,
     obrv.observation_obrv as remarque,
     prap.libelle_pra as proprietaire,
     prae.libelle_pra as exploitant,

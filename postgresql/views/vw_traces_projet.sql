@@ -20,6 +20,7 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     prt.libelle_prt as type_propriete,
     obrv.constructiondate_obrv as date_construction,
     obrv.miseenservicedate_obrv as date_mise_en_service,
+    obrv.horsservicedate_obrv as date_mise_hors_service,
     obrv.observation_obrv as observation,
     prj.id_prj AS projet_id,
     prj.nom_prj AS projet_nom,

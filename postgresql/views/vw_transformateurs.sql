@@ -16,6 +16,7 @@ SELECT
 	obrv.convention_obrv as num_esti,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
+	obrv.horsservicedate_obrv as date_mise_hors_service,
 	obrv.observation_obrv as observation,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
