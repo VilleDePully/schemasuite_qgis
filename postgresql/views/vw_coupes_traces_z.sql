@@ -8,6 +8,8 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces AS
     obrv.modele_obrv AS modele,
     obrv.code_obrv AS code,
     obrv.nom_obrv as nom,
+    obrv.nomcalcul_obrv as nom_calcule,
+    obrv.infobulle_obrv as infobulle,
     lower(obrv.racineguid_obrv) as guid_racine,
     trc.hauteur_trc AS hauteur,
     trc.emprise_trc AS emprise,

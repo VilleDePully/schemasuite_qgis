@@ -10,6 +10,8 @@ SELECT
 	obrv.modele_obrv AS modele,
 	obrv.code_obrv AS code,
 	obrv.nom_obrv as nom,
+  	obrv.nomcalcul_obrv as nom_calcule,
+  	obrv.infobulle_obrv as infobulle,
 	lower(obrv.racineguid_obrv) as guid_racine,
 	ROUND(ST_LENGTH(brfv.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
 	eta.libelle_eta as etat_deploiement,
