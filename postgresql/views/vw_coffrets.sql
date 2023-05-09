@@ -8,6 +8,7 @@ SELECT
 	obrv.modele_obrv AS modele,
 	obrv.code_obrv AS code,
 	obrv.nom_obrv as nom,
+	obrv.infobulle_obrv as infobulle,
 	lower(obrv.racineguid_obrv) as guid_racine,
 	eta.libelle_eta as etat_deploiement,
 	ete.libelle_ete as etat_entretien,
