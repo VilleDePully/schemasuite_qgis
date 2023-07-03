@@ -45,6 +45,8 @@ SELECT
 	tkr.profondeur_tkr AS profondeur,
 	tkr.forme_tkr AS forme,
 	tkr.couvercles_tkr AS couvercles,
+	--Annexes
+	anx_agg.annexe_chemins as annexes,
 	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
@@ -60,6 +62,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.chambre_tkr tkr ON tkr.id_obrv = obrv.id_obrv
+	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
 	
 WHERE obrv.idorc_obrv = 46 
 	AND obrv.idprj_obrv != 1 

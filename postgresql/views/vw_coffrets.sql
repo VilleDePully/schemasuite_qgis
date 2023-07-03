@@ -44,6 +44,8 @@ SELECT
 	cof.nopolice_cof as no_police,
 	cof.pmaxfeg_cof as puissance_max_feg,
 	cof.resisolation_cof as resistance_isolation,
+	--Annexes
+	anx_agg.annexe_chemins as annexes,
 	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
@@ -61,6 +63,7 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.coffretintroduction_cof cof ON v_obrvl.id_obrv = cof.id_obrv
 	LEFT JOIN dbo.ngenrecoffret_gco gco ON cof.idgco_cof = gco.id_gco
+	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
 
 WHERE obrv.idorc_obrv IN (14) 
 	AND obrv.idprj_obrv = 1 

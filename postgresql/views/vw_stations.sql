@@ -30,6 +30,12 @@ SELECT
 	nodv.datedecontrole_nodv as date_controle,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
+	--Annexes
+	anx_agg.annexe_chemins as annexes,
+	--Transformateurs
+	trf_agg.transfo_infos as transformateurs,
+	--Cellules
+	cel_agg.cellule_infos as cellules,
 	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
@@ -44,6 +50,10 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
+	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
+	LEFT JOIN export.vw_transformateurs_agg trf_agg ON trf_agg.id_parent = obrv.id_obrv
+	LEFT JOIN export.vw_cellules_agg cel_agg ON cel_agg.id_parent = obrv.id_obrv
+
 WHERE obrv.idorc_obrv = 9 
 	AND obrv.idprj_obrv = 1 
 	AND ndfv.idprj_ndfv = 1; -- stations

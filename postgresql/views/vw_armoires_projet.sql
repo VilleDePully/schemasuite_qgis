@@ -39,6 +39,8 @@ SELECT
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
+	--Annexes
+	anx_agg.annexe_chemins as annexes,
 	--Geometry
 	st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
@@ -54,6 +56,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.armoireelectrique_arm arm ON arm.id_obrv = nodv.id_obrv
+	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
 	
 WHERE obrv.idorc_obrv = 8
 	AND obrv.idprj_obrv != 1
