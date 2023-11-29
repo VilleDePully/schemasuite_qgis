@@ -56,4 +56,5 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
 
   WHERE obrv.idorc_obrv = 1 
     AND obrv.idprj_obrv != 1 
-    AND trav.idprj_trav != 1;
+    AND trav.idprj_trav != 1
+    AND trav.idsch_trav = 1;

@@ -40,4 +40,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
 WHERE obrv.idorc_obrv = 2 
 	AND obrv.idprj_obrv = 1 
-	AND cofv.idprj_cofv = 1; -- conduites
+	AND cofv.idprj_cofv = 1
+	AND cofv.idsch_cofv = 1; -- conduites

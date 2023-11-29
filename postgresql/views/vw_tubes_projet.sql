@@ -50,4 +50,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	
 WHERE obrv.idorc_obrv = 2 
 	AND obrv.idprj_obrv != 1 
-	AND cofv.idprj_cofv != 1; -- conduites
+	AND cofv.idprj_cofv != 1
+	AND cofv.idsch_cofv = 1; -- conduites

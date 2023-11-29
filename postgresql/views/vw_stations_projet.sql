@@ -65,6 +65,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	
 WHERE obrv.idorc_obrv = 9 
 	AND obrv.idprj_obrv != 1 
-	AND ndfv.idprj_ndfv != 1; -- stations
+	AND ndfv.idprj_ndfv != 1
+	AND ndfv.idsch_ndfv = 1; -- stations
 
 

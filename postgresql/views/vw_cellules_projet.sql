@@ -58,4 +58,4 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 WHERE obrv.idorc_obrv IN (26) 
 	AND obrv.idprj_obrv != 1
 	--AND ndfv.idprj_ndfv = 1 -- Cellules
-	;
+	--AND ndfv.idsch_ndfv = 1;

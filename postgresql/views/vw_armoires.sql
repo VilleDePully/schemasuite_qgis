@@ -50,4 +50,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
 WHERE obrv.idorc_obrv = 8 
 	AND obrv.idprj_obrv = 1 
-	AND ndfv.idprj_ndfv = 1;
+	AND ndfv.idprj_ndfv = 1
+	AND ndfv.idsch_ndfv = 1;

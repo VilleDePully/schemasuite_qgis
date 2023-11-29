@@ -47,4 +47,5 @@ FROM dbo.objetreseauversion_obrv obrv
 
 WHERE obrv.idorc_obrv = 3 
 	AND obrv.idprj_obrv = 1 
-	AND ndfv.idprj_ndfv != 1; -- zones de fouilles
+	AND ndfv.idprj_ndfv != 1
+	AND ndfv.idsch_ndfv = 1; -- zones de fouilles

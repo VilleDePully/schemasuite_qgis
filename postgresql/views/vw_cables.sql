@@ -63,4 +63,6 @@ FROM dbo.objetreseauversion_obrv obrv
 	
 WHERE obrv.idorc_obrv IN (4,18,19) 
 	AND obrv.idprj_obrv = 1 
-	AND brfv.idprj_brfv = 1; -- cable générique, electrique
+	AND brfv.idprj_brfv = 1
+	AND brfv.idsch_brfv = 1
+	AND ST_GeometryType(brfv.the_geom) = 'ST_LineString'; -- cable générique, electrique
