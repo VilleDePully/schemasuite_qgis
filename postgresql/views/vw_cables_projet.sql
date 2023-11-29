@@ -59,7 +59,13 @@ SELECT
 	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
-	LEFT JOIN dbo.branchefeatureversion_brfv brfv ON brfv.idobr_brfv = obrv.idobr_obrv
+	LEFT JOIN (
+		SELECT *
+		FROM dbo.branchefeatureversion_brfv brfv
+		WHERE brfv.idprj_brfv != 1
+		  AND brfv.idsch_brfv = 1
+		) brfv
+		ON brfv.idobr_brfv = obrv.idobr_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
 	LEFT JOIN dbo.nproprietetype_prt prt ON  prt.id_prt = obrv.idproprietetype_obrv
@@ -71,7 +77,4 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.ntypecablage_tyc tyc ON cae.idtyc_cae = tyc.id_tyc
 
 WHERE obrv.idorc_obrv IN (4,18,19) 
-	AND obrv.idprj_obrv != 1 
-	AND brfv.idprj_brfv != 1
-	AND brfv.idsch_brfv = 1
-	AND ST_GeometryType(brfv.the_geom) = 'ST_LineString';
+	AND obrv.idprj_obrv != 1;
