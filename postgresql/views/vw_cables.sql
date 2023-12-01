@@ -47,14 +47,15 @@ SELECT
 	cae.caplineique_cae AS capacite_lineique,
 	case when obrv.idorc_obrv IN (19)  then 1 else 0 end as aerien,
 	--Geometry
-	ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
+	brfv.the_geom as the_geom
+	--ST_FORCE2D(brfv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN (
 		SELECT *
-		FROM dbo.branchefeatureversion_brfv brfv
-		WHERE brfv.idprj_brfv = 1
-		  AND brfv.idsch_brfv = 1
+		FROM dbo.branchefeatureversion_brfv brfv1
+		WHERE brfv1.idprj_brfv = 1
+		  AND brfv1.idsch_brfv = 1
 		) brfv
 		ON brfv.idobr_brfv = obrv.idobr_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv

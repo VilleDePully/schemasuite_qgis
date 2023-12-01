@@ -42,20 +42,23 @@ SELECT
     --  ST_Force2D(coupes_tubes.geom_multi_polygon)))::geometry('MultiPolygon',2056) as geom_complex
     --(cofv.the_geom)::geometry(LineStringZ,2056) AS the_geom
 	
-   FROM dbo.objetreseauversion_obrv obrv
-     LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
-     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
-     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
-     LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
-     LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
-     LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
-     LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
-     LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
-     LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
-     INNER JOIN export.vw_coupes_tubes_projet_geom coupes_tubes ON coupes_tubes.id_obr = obrv.idobr_obrv
+  FROM dbo.objetreseauversion_obrv obrv
+    LEFT JOIN (
+		  SELECT *
+		  FROM dbo.conduitefeatureversion_cofv cofv1
+		  WHERE cofv1.idprj_cofv != 1
+		  AND cofv1.idsch_cofv = 1
+		  ) cofv ON cofv.idobr_cofv = obrv.idobr_obrv
+    LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
+    LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
+    LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
+    LEFT JOIN dbo.npersonneabstraite_pra prap ON obrv.idproprietairepra_obrv = prap.id_pra
+    LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
+    LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
+    LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
+    LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
+    INNER JOIN export.vw_coupes_tubes_projet_geom coupes_tubes ON coupes_tubes.id_obr = obrv.idobr_obrv
 
-  	WHERE obrv.idorc_obrv = 2 
-      AND obrv.idprj_obrv != 1 
-      AND cofv.idprj_cofv != 1
-      AND cofv.idsch_cofv = 1;
+  WHERE obrv.idorc_obrv = 2 
+    AND obrv.idprj_obrv != 1;
 

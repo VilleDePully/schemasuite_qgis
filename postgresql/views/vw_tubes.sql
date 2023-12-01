@@ -12,9 +12,9 @@ SELECT
 	obrv.infobulle_obrv as infobulle,
 	lower(obrv.racineguid_obrv) as guid_racine,
 	ROUND(ST_LENGTH(cofv.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
-    eta.libelle_eta as etat_deploiement,
-    ete.libelle_ete as etat_entretien,
-    prt.libelle_prt as type_propriete,
+	   eta.libelle_eta as etat_deploiement,
+	   ete.libelle_ete as etat_entretien,
+	   prt.libelle_prt as type_propriete,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.horsservicedate_obrv as date_mise_hors_service,
@@ -26,10 +26,16 @@ SELECT
 	obrv.modificationdate_obrv AS date_modification,
 	enf.nombre_enfants AS nombre_cables,
 	--Geometry
-	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
+	cofv.the_geom AS the_geom
+	--ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
-	LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
+	LEFT JOIN (
+		SELECT *
+		FROM dbo.conduitefeatureversion_cofv cofv1
+		WHERE cofv1.idprj_cofv = 1
+		  AND cofv1.idsch_cofv = 1
+		) cofv ON cofv.idobr_cofv = obrv.idobr_obrv
     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
     LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
@@ -39,6 +45,4 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
 	LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
 WHERE obrv.idorc_obrv = 2 
-	AND obrv.idprj_obrv = 1 
-	AND cofv.idprj_cofv = 1
-	AND cofv.idsch_cofv = 1; -- conduites
+	AND obrv.idprj_obrv = 1; -- conduites

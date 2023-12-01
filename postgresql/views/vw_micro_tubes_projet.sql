@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS export.vw_tubes_projet;
+DROP VIEW IF EXISTS export.vw_micro_tubes_projet;
 
-CREATE OR REPLACE VIEW export.vw_tubes_projet AS
+CREATE OR REPLACE VIEW export.vw_micro_tubes_projet AS
 
 SELECT
 	obrv.id_obrv as id_obrv,
@@ -35,16 +35,10 @@ SELECT
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
 	--Geometry
-	cofv.the_geom AS the_geom
-	--ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
+	ST_FORCE2D(cofv.the_geom)::geometry('LineString','2056') as the_geom
 
 FROM dbo.objetreseauversion_obrv obrv
-	LEFT JOIN (
-		SELECT *
-		FROM dbo.conduitefeatureversion_cofv cofv1
-		WHERE cofv1.idprj_cofv != 1
-		  AND cofv1.idsch_cofv = 1
-		) cofv ON cofv.idobr_cofv = obrv.idobr_obrv
+	LEFT JOIN dbo.conduitefeatureversion_cofv cofv ON cofv.idobr_cofv = obrv.idobr_obrv
     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
     LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
@@ -55,4 +49,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
 	
 WHERE obrv.idorc_obrv = 2 
-	AND obrv.idprj_obrv != 1; -- conduites
+	AND obrv.idprj_obrv != 1 
+	AND cofv.idprj_cofv != 1
+	AND cofv.idsch_cofv = 1
+	AND obrv.modele_obrv LIKE '%FO-SSI%'; -- micro tubes

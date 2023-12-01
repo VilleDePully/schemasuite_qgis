@@ -1,8 +1,8 @@
 DROP VIEW IF EXISTS export.vw_traces_projet;
 
 CREATE OR REPLACE VIEW export.vw_traces_projet
- AS
- SELECT
+  AS
+  SELECT
     obrv.id_obrv as id_obrv,
     obrv.idobr_obrv as id_obr,
     obrv.modele_obrv AS modele,
@@ -30,28 +30,32 @@ CREATE OR REPLACE VIEW export.vw_traces_projet
     prj.etat_prj AS projet_etat,
     obrv.creationdate_obrv AS date_creation,
     obrv.modificationdate_obrv AS date_modification,
-	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Cree'
-		WHEN obrv.state_obrv = 1 THEN 'Modifie'
-		WHEN obrv.state_obrv = 2 THEN 'Supprime'
-	END statut,
-  --Geometry
-  ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
+	  CASE
+		  WHEN obrv.state_obrv = 0 THEN 'Cree'
+		  WHEN obrv.state_obrv = 1 THEN 'Modifie'
+		  WHEN obrv.state_obrv = 2 THEN 'Supprime'
+	  END statut,
+    --Geometry
+    trav.the_geom AS the_geom
+    --ST_FORCE2D(trav.the_geom)::Geometry('LineString', 2056) as the_geom
 
-   FROM dbo.objetreseauversion_obrv obrv
-     LEFT JOIN dbo.tracefeatureversion_trav trav ON trav.idobr_trav = obrv.idobr_obrv
-     LEFT JOIN dbo.trace_trc trc ON trc.id_obrv = obrv.id_obrv
-     LEFT JOIN mapped.precision prc ON prc.id_prec = trc.precision_trc
-     LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
-     LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
-     LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
-     LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
-     LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
-     LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
-     LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
+  FROM dbo.objetreseauversion_obrv obrv
+    LEFT JOIN (
+      SELECT *
+      FROM dbo.tracefeatureversion_trav trav1
+      WHERE trav1.idprj_trav != 1
+      AND trav1.idsch_trav = 1
+    ) trav ON trav.idobr_trav = obrv.idobr_obrv
+    LEFT JOIN dbo.trace_trc trc ON trc.id_obrv = obrv.id_obrv
+    LEFT JOIN mapped.precision prc ON prc.id_prec = trc.precision_trc
+    LEFT JOIN dbo.netat_eta eta ON eta.id_eta = obrv.idetat_obrv
+    LEFT JOIN dbo.netatentretien_ete ete ON ete.id_ete = obrv.idetatentretien_obrv
+    LEFT JOIN dbo.nproprietetype_prt prt ON prt.id_prt = obrv.idproprietetype_obrv
+    LEFT JOIN dbo.projet_prj prj ON prj.id_prj = trav.idprj_trav
+    LEFT JOIN dbo.accessibilite_acc acc ON trc.idacc_trc = acc.id_acc
+    LEFT JOIN dbo.modepose_pos pos ON trc.idpos_trc = pos.id_pos
+    LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
      
-   WHERE obrv.idorc_obrv = 1 
-    AND obrv.idprj_obrv != 1 
-    AND trav.idprj_trav != 1
-    AND trav.idsch_trav = 1;
+  WHERE obrv.idorc_obrv = 1 
+    AND obrv.idprj_obrv != 1;
 
