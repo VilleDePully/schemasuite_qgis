@@ -32,12 +32,24 @@ SELECT
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	--Geometry
+	npfv.the_geom as geom_point,
 	--st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
-	ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
+	ndfv.the_geom as geom_polygon
+	--ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
 	
 FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = obrv.id_obrv
-	LEFT JOIN dbo.noeudfeatureversion_ndfv ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
+	LEFT JOIN (
+		SELECT *
+		FROM dbo.noeudfeatureversion_ndfv ndfv1
+		WHERE ndfv1.idprj_ndfv = 1
+		AND ndfv1.idsch_ndfv = 1) ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
+	LEFT JOIN (
+		SELECT * 
+		FROM dbo.noeudconnectionpointfeatureversion_npfv npfv1
+		WHERE npfv1.idprj_npfv = 1
+		AND npfv1.idsch_npfv = 1
+	) npfv ON npfv.idobr_npfv = obrv.idobr_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
 	LEFT JOIN dbo.nproprietetype_prt prt ON  prt.id_prt = obrv.idproprietetype_obrv
@@ -48,6 +60,4 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.nobjetreseauclasse_orc orc ON orc.id_orc= obrv.idorc_obrv
 
 WHERE obrv.idorc_obrv IN (8,9,46) 
-	AND obrv.idprj_obrv = 1 
-	AND ndfv.idprj_ndfv = 1
-	AND ndfv.idsch_ndfv = 1; -- 46 chambre
+	AND obrv.idprj_obrv = 1; -- 46 chambre
