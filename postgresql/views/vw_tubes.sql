@@ -12,9 +12,9 @@ SELECT
 	obrv.infobulle_obrv as infobulle,
 	lower(obrv.racineguid_obrv) as guid_racine,
 	ROUND(ST_LENGTH(cofv.the_geom)::numeric,2)::numeric(10,2) AS longueur_calc,
-	   eta.libelle_eta as etat_deploiement,
-	   ete.libelle_ete as etat_entretien,
-	   prt.libelle_prt as type_propriete,
+	eta.libelle_eta as etat_deploiement,
+	ete.libelle_ete as etat_entretien,
+	prt.libelle_prt as type_propriete,
 	obrv.constructiondate_obrv as date_construction,
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.horsservicedate_obrv as date_mise_hors_service,
@@ -44,5 +44,6 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = cofv.idprj_cofv
 	LEFT JOIN export.vw_enfants enf ON enf.id_parent = obrv.idobr_obrv
+
 WHERE obrv.idorc_obrv = 2 
 	AND obrv.idprj_obrv = 1; -- conduites
