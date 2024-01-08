@@ -41,7 +41,7 @@ SELECT
 		WHEN obrv.state_obrv = 2 THEN 'Supprime'
 	END statut,
 	--Geometry
-	npfv.the_geom as geom_point,
+	--npfv.the_geom as geom_point,
 	--st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ndfv.the_geom as geom_polygon
 	--ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon

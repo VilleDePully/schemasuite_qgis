@@ -32,7 +32,7 @@ SELECT
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	--Geometry
-	npfv.the_geom as geom_point,
+	--npfv.the_geom as geom_point,
 	--st_centroid(ST_Force2D(ndfv.the_geom))::geometry('Point',2056) as geom_centroid,
 	ndfv.the_geom as geom_polygon
 	--ST_Force2D(ndfv.the_geom)::geometry('Polygon',2056) as geom_polygon
