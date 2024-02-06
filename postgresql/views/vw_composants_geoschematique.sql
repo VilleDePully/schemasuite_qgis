@@ -19,7 +19,7 @@ SELECT
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.horsservicedate_obrv as date_mise_hors_service,
 	obrv.observation_obrv as observation,
-	npfv.niveautension_npfv as tension,
+	--npfv.niveautension_npfv as tension_acceptee,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	praf.libelle_pra as fournisseur,
@@ -27,6 +27,8 @@ SELECT
 	obrv.modificationdate_obrv AS date_modification,
 	--Composants
 	copv.etatflux_copv AS etat_flux,
+	--Niveau de tension
+	niv.code_niv as tension,
 	--Attributs spécifiques
 	--Annexes
 	--anx_agg.annexe_chemins as annexes,
@@ -57,6 +59,7 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.composantversion_copv copv ON copv.id_obrv = obrv.idobr_obrv
+	LEFT JOIN dbo.nniveautension_niv niv ON niv.id_niv = copv.idniv_copv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
 
 WHERE obrv.idorc_obrv IN (29,30,38) 
