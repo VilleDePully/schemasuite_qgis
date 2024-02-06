@@ -1,11 +1,10 @@
-DROP VIEW IF EXISTS export.vw_composants_geoschematique;
+DROP VIEW IF EXISTS export.vw_stations_geoschematique;
 
-CREATE OR REPLACE VIEW export.vw_composants_geoschematique AS
+CREATE OR REPLACE VIEW export.vw_stations_geoschematique AS
 
 SELECT
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
-	orc.libelle_orc as type_orc,
 	obrv.modele_obrv AS modele,
 	obrv.code_obrv AS code,
 	obrv.nom_obrv as nom,
@@ -19,36 +18,40 @@ SELECT
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.horsservicedate_obrv as date_mise_hors_service,
 	obrv.observation_obrv as observation,
-	npfv.niveautension_npfv as tension,
+	ndfv.niveautension_ndf as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	praf.libelle_pra as fournisseur,
+	nodv.geoposz_nodv as altitude,
+	nodv.acces_nodv as acces,
+	nodv.emplacement_nodv as emplacement,
+	nodv.typeconstruction_nodv as type_construction,
+	nodv.remarquecontrole_nodv as remarque_controle,
+	nodv.datedecontrole_nodv as date_controle,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
-	--Composants
-	copv.etatflux_copv AS etat_flux,
-	--Attributs spécifiques
 	--Annexes
-	--anx_agg.annexe_chemins as annexes,
+	anx_agg.annexe_chemins as annexes,
+	--Transformateurs
+	trf_agg.transfo_infos as transformateurs,
+	--Cellules
+	cel_agg.cellule_infos as cellules,
 	--Geometry
 	npfv.the_geom as geom_point_geoschematique
 	
-FROM dbo.v_objetreseauversionliaison v_obrvl
-	LEFT JOIN dbo.objetreseauversion_obrv obrv ON v_obrvl.id_obrv = obrv.id_obrv
-	LEFT JOIN dbo.nobjetreseauclasse_orc orc ON orc.id_orc = obrv.idorc_obrv
-	-- lien vers le noeud de l'objet parent (armoire)
-	--LEFT JOIN (
-	--	SELECT *
-	--	FROM dbo.noeudfeatureversion_ndfv ndfv1
-	--	WHERE ndfv1.idprj_ndfv = 1
-	--	AND ndfv1.idsch_ndfv = 1) ndfv ON  ndfv.idobr_ndfv = v_obrvl.idparent_cmp
+FROM dbo.objetreseauversion_obrv obrv
+	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = obrv.id_obrv
+	LEFT JOIN (
+		SELECT *
+		FROM dbo.noeudfeatureversion_ndfv ndfv1
+		WHERE ndfv1.idprj_ndfv = 1
+		AND ndfv1.idsch_ndfv != 1) ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
 	LEFT JOIN (
 		SELECT * 
 		FROM dbo.noeudconnectionpointfeatureversion_npfv npfv1
 		WHERE npfv1.idprj_npfv = 1
 		AND npfv1.idsch_npfv != 1
 	) npfv ON npfv.idobr_npfv = obrv.idobr_obrv
-	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = v_obrvl.id_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
 	LEFT JOIN dbo.nproprietetype_prt prt ON  prt.id_prt = obrv.idproprietetype_obrv
@@ -56,9 +59,11 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	LEFT JOIN dbo.composantversion_copv copv ON copv.id_obrv = obrv.idobr_obrv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
+	LEFT JOIN export.vw_transformateurs_agg trf_agg ON trf_agg.id_parent = obrv.id_obrv
+	LEFT JOIN export.vw_cellules_agg cel_agg ON cel_agg.id_parent = obrv.id_obrv
 
-WHERE obrv.idorc_obrv IN (29,30,38) 
-	AND obrv.idprj_obrv = 1
-	AND npfv.the_geom IS NOT NULL; -- discjoncteur, fusible et sectionneur
+WHERE obrv.idorc_obrv = 9 
+	AND obrv.idprj_obrv = 1; -- stations
+
+
