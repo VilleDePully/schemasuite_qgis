@@ -18,7 +18,7 @@ SELECT
 	obrv.miseenservicedate_obrv as date_mise_en_service,
 	obrv.horsservicedate_obrv as date_mise_hors_service,
 	obrv.observation_obrv as observation,
-	ndfv.niveautension_ndf as tension,
+	vv_ct.niveau_tension as tension,
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	praf.libelle_pra as fournisseur,
@@ -49,6 +49,7 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 		WHERE npfv1.idprj_npfv = 1
 		AND npfv1.idsch_npfv = 1
 	) npfv ON npfv.idobr_npfv = v_obrvl.idparent_cmp
+	LEFT JOIN export.vv_chambre_tension vv_ct ON  vv_ct.id_obrv = v_obrvl.idparent_cmp
 	LEFT JOIN dbo.noeudversion_nodv nodv ON nodv.id_obrv = v_obrvl.id_obrv
 	LEFT JOIN dbo.netat_eta eta ON  eta.id_eta = obrv.idetat_obrv
 	LEFT JOIN dbo.netatentretien_ete ete ON  ete.id_ete = obrv.idetatentretien_obrv
