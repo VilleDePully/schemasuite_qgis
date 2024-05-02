@@ -48,6 +48,12 @@ SELECT
 	cof.nopolice_cof as no_police,
 	cof.pmaxfeg_cof as puissance_max_feg,
 	cof.resisolation_cof as resistance_isolation,
+	-- Alimentation station
+    zto.idnodalimbt_zto AS id_station_alim,
+	obrv_sta.nom_obrv,
+    -- Alimentation armoire
+    case when zto.idadbtalim_zto = 0 then Null Else zto.idadbtalim_zto end AS id_armoire_alim,
+	case when zto.idadbtalim_zto = 0 then Null Else obrv_arm.nom_obrv end AS nom_armoire_alim,
 	CASE
 		WHEN obrv.state_obrv = 0 THEN 'Cree'
 		WHEN obrv.state_obrv = 1 THEN 'Modifie'
@@ -85,7 +91,19 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.coffretintroduction_cof cof ON v_obrvl.id_obrv = cof.id_obrv
 	LEFT JOIN dbo.ngenrecoffret_gco gco ON cof.idgco_cof = gco.id_gco
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
+	LEFT JOIN dbo.zsystopoobject_zto zto ON zto.idobr_zto = obrv.idobr_obrv
+	LEFT JOIN (
+	    SELECT idobr_obrv, nom_obrv
+		FROM dbo.objetreseauversion_obrv
+		WHERE idprj_obrv = 1 AND idorc_obrv = 9) obrv_sta
+		ON obrv_sta.idobr_obrv = zto.idnodalimbt_zto
+	LEFT JOIN (
+		SELECT idobr_obrv, nom_obrv
+		FROM dbo.objetreseauversion_obrv
+		WHERE idprj_obrv = 1 AND idorc_obrv = 8) obrv_arm
+		ON obrv_arm.idobr_obrv = zto.idadbtalim_zto
 
 WHERE obrv.idorc_obrv IN (14) 
-	AND obrv.idprj_obrv != 1; -- coffret
+	AND obrv.idprj_obrv != 1
+	AND ndfv.idprj_ndfv != 1; -- coffret
 
