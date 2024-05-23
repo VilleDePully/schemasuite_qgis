@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS export.vw_armoires_geoschematique;
 CREATE OR REPLACE VIEW export.vw_armoires_geoschematique AS
 
 SELECT
+	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	npfv.idsch_npfv as id_sch,

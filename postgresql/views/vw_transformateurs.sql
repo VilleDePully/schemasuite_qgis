@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS export.vw_transformateurs;
 CREATE OR REPLACE VIEW export.vw_transformateurs AS
 
 SELECT
+	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	v_obrvl.idparent_cmp as id_parent,

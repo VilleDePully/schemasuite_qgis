@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS export.vw_constructions_genie_civil_projet;
 CREATE OR REPLACE VIEW export.vw_constructions_genie_civil_projet AS
 
 SELECT
+	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	orc.libelle_orc as classe,

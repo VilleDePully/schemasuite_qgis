@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS export.vw_noeuds_geo_projet;
 CREATE OR REPLACE VIEW export.vw_noeuds_geo_projet AS
 
 SELECT
+	enfv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	enfv.id_enfv as id_enfv,
 	enfv.libelle_enfv as libelle,
 	prj.id_prj AS projet_id,

@@ -2,6 +2,7 @@ DROP VIEW IF EXISTS export.vw_coupe_text_elements;
 
 CREATE VIEW export.vw_coupe_text_elements AS
 SELECT 
+	ctfv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	id_ctfv as id_ctfv,
 	libelle_ctfv as libelle,
 	idctf_ctfv as idctf,

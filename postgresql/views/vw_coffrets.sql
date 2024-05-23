@@ -2,7 +2,9 @@ DROP VIEW IF EXISTS export.vw_coffrets;
 
 CREATE OR REPLACE VIEW export.vw_coffrets AS
 
-SELECT obrv.id_obrv,
+SELECT 
+    obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
+    obrv.id_obrv,
     obrv.idobr_obrv AS id_obr,
     obrv.modele_obrv AS modele,
     obrv.code_obrv AS code,

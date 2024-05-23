@@ -3,6 +3,7 @@ DROP VIEW IF EXISTS export.vw_armoires_projet;
 CREATE OR REPLACE VIEW export.vw_armoires_projet AS
 
 SELECT
+	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	obrv.modele_obrv AS modele,
@@ -28,8 +29,8 @@ SELECT
 	nodv.typeconstruction_nodv as type_construction,
 	nodv.remarquecontrole_nodv as remarque_controle,
 	nodv.datedecontrole_nodv as date_controle,
-	prj.id_prj AS projet_id,
-    prj.nom_prj AS projet_nom,
+	prj.id_prj AS id_projet,
+    prj.nom_prj AS nom_projet,
     prj.description_prj AS projet_description,
     prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,

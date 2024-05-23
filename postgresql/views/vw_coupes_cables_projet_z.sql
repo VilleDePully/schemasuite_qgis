@@ -5,6 +5,7 @@ DROP VIEW IF EXISTS export.vw_coupes_cables_projet;
 CREATE OR REPLACE VIEW export.vw_coupes_cables_projet AS 
 
 SELECT
+	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
 	obrv.id_obrv as id_obrv,
 	obrv.idobr_obrv as id_obr,
 	obrv.modele_obrv AS modele,

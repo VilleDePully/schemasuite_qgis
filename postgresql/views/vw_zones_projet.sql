@@ -4,8 +4,9 @@ DROP VIEW IF EXISTS export.vw_zones_projets;
 CREATE OR REPLACE VIEW export.vw_zones_projets AS
 
 SELECT
-	prj.id_prj AS id,
-	prj.nom_prj AS nom,
+	zft.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
+	prj.id_prj AS projet_id,
+	prj.nom_prj AS projet_nom,
 	prj.description_prj AS description,
 	CASE
 		WHEN prj.etat_prj = 0 THEN 'En travaux'
