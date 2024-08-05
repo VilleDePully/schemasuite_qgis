@@ -27,6 +27,11 @@ SELECT
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,
 	prj.etat_prj AS projet_etat,
+	--Projet
+	prj.id_prj AS projet_id,
+	prj.nom_prj AS projet_nom,
+	prj.description_prj AS projet_description,
+	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	enf.nombre_enfants AS nombre_cables,

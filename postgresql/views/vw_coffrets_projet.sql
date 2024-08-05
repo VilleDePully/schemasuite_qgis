@@ -29,6 +29,7 @@ SELECT
 	nodv.typeconstruction_nodv as type_construction,
 	nodv.remarquecontrole_nodv as remarque_controle,
 	nodv.datedecontrole_nodv as date_controle,
+	--Projet
 	prj.id_prj AS projet_id,
 	prj.nom_prj AS projet_nom,
 	prj.description_prj AS projet_description,

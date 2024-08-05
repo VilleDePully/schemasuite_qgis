@@ -25,6 +25,7 @@ CREATE OR REPLACE VIEW export.vw_coupes_traces_projet AS
     obrv.miseenservicedate_obrv as date_mise_en_service,
     obrv.horsservicedate_obrv as date_mise_hors_service,
     obrv.observation_obrv as observation,
+    --Projet
     prj.id_prj AS projet_id,
     prj.nom_prj AS projet_nom,
     prj.description_prj AS projet_description,

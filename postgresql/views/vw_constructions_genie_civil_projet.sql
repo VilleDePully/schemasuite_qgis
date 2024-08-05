@@ -30,10 +30,11 @@ SELECT
 	nodv.typeconstruction_nodv as type_construction,
 	nodv.remarquecontrole_nodv as remarque_controle,
 	nodv.datedecontrole_nodv as date_controle,
+	--Projet
 	prj.id_prj AS projet_id,
-    prj.nom_prj AS projet_nom,
-    prj.description_prj AS projet_description,
-    prj.etat_prj AS projet_etat,
+  prj.nom_prj AS projet_nom,
+  prj.description_prj AS projet_description,
+  prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
 	CASE
