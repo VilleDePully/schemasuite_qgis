@@ -23,10 +23,6 @@ SELECT
 	prap.libelle_pra as proprietaire,
 	prae.libelle_pra as exploitant,
 	praf.libelle_pra as fournisseur,
-	prj.id_prj AS projet_id,
-	prj.nom_prj AS projet_nom,
-	prj.description_prj AS projet_description,
-	prj.etat_prj AS projet_etat,
 	--Projet
 	prj.id_prj AS projet_id,
 	prj.nom_prj AS projet_nom,
