@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 295.39999 295.39999"
+   version="1.1"
+   id="svg28"
+   sodipodi:docname="EP_Petite_connexion.svg"
+   width="295.39999"
+   height="295.39999"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata34">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs32" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     id="namedview30"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.3925674"
+     inkscape:cx="-42.699199"
+     inkscape:cy="73.878235"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g23" />
+  <!-- svg generated using QGIS www.qgis.org -->
+  <g
+     id="dessin3_entities"
+     inkscape:groupmode="layer"
+     inkscape:label="dessin3_entities"
+     transform="translate(-593.8,-255.8)">
+    <g
+       id="g5"
+       style="fill:#ffffff;stroke:#7b4d39;stroke-width:10;stroke-linejoin:round;fill-opacity:1;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none">
+      <g
+         id="dessin3_entities_1"
+         inkscape:label="RAEW"
+         style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="M 594,551 H 889 V 256 H 594 v 295"
+           id="path2"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="g23"
+     inkscape:groupmode="layer"
+     inkscape:label="dessin3_entities"
+     transform="translate(-593.8,-255.8)">
+    <g
+       id="g21"
+       style="fill:#ffffff;stroke:#7b4d39;stroke-width:10;stroke-linejoin:round;fill-opacity:1;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none">
+      <g
+         id="g10"
+         inkscape:label="0"
+         style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="M 594,551 H 889"
+           id="path8"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+      <g
+         id="dessin3_entities_2"
+         inkscape:label="0"
+         style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="M 889,551 V 256"
+           id="path12"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+      <g
+         id="dessin3_entities_3"
+         inkscape:label="0"
+         style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="M 889,256 H 594"
+           id="path15"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+      <g
+         id="dessin3_entities_4"
+         inkscape:label="0"
+         style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           d="M 594,256 V 551"
+           id="path18"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1;stroke:#7b4d39;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+    </g>
+  </g>
+  <!-- QGIS extent for clipping, eg in Inkscape -->
+  <g
+     id="qgisviewbox"
+     inkscape:groupmode="layer"
+     inkscape:label="qgisviewbox"
+     style="fill:none;stroke:#ff0000;stroke-width:1"
+     transform="translate(-593.8,-255.8)" />
+</svg>
