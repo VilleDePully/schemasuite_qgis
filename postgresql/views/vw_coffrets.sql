@@ -79,7 +79,7 @@ SELECT
      LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
      LEFT JOIN dbo.coffretintroduction_cof cof ON v_obrvl.id_obrv = cof.id_obrv
      LEFT JOIN dbo.ngenrecoffret_gco gco ON cof.idgco_cof = gco.id_gco
-	 LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
+	 LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.idobr_objet = obrv.idobr_obrv
      LEFT JOIN dbo.zsystopoobject_zto zto ON zto.idobr_zto = obrv.idobr_obrv
 	 LEFT JOIN (
 	    SELECT idobr_obrv, nom_obrv

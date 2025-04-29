@@ -61,7 +61,7 @@ FROM dbo.v_objetreseauversionliaison v_obrvl
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.composantversion_copv copv ON copv.id_obrv = obrv.idobr_obrv
 	LEFT JOIN dbo.nniveautension_niv niv ON niv.id_niv = copv.idniv_copv
-	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.guid_objet = lower(obrv.racineguid_obrv)
+	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.idobr_objet = obrv.idobr_obrv
 
 WHERE obrv.idorc_obrv IN (29,30,38) 
 	AND obrv.idprj_obrv = 1
