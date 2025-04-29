@@ -1,0 +1,1 @@
+select * from sys.sysprocesses where dbid = db_id(N'SCHEMASUITE_PULLY')

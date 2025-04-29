@@ -1,0 +1,7 @@
+-- Suppression des boucles de connexion internes
+
+DELETE
+  FROM [SCHEMASUITE_DATA].[Events].[Events] 
+  WHERE 
+  EventType LIKE '%ElecInternalConnectionCreated%'
+  AND JSON_VALUE(Payload, '$.SourceComposantVersionRootId') = JSON_VALUE(Payload, '$.TargetComposantVersionRootId')
