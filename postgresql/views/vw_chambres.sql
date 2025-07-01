@@ -68,5 +68,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.chambre_tkr tkr ON tkr.id_obrv = obrv.id_obrv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.idobr_objet = obrv.idobr_obrv
 	
-WHERE obrv.idorc_obrv IN (46,80)
+WHERE obrv.idorc_obrv IN (46,60)
 	AND obrv.idprj_obrv = 1; -- 46 chambre

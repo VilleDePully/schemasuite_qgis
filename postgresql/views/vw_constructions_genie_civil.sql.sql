@@ -60,5 +60,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
 	LEFT JOIN dbo.nobjetreseauclasse_orc orc ON orc.id_orc= obrv.idorc_obrv
 
-WHERE obrv.idorc_obrv IN (8,9,10,46,60,80)
+WHERE obrv.idorc_obrv IN (81,9,10,46,60)
 	AND obrv.idprj_obrv = 1;

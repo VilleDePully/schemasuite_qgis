@@ -63,5 +63,5 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.armoireelectrique_arm arm ON arm.id_obrv = nodv.id_obrv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.idobr_objet = obrv.idobr_obrv
 
-WHERE obrv.idorc_obrv = 8 
+WHERE obrv.idorc_obrv = 81 
 	AND obrv.idprj_obrv = 1;
