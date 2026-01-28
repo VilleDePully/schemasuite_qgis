@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS export.vw_chambres_projet;
+DROP VIEW IF EXISTS export.vw_element_couplage_projet;
 
-CREATE OR REPLACE VIEW export.vw_chambres_projet AS
+CREATE OR REPLACE VIEW export.vw_element_couplage_projet AS
 
 SELECT
 	obrv.id as id, -- Necessary to ease postgreSQL primary keys attribution through FME
@@ -31,22 +31,11 @@ SELECT
 	nodv.datedecontrole_nodv as date_controle,
 	--Projet
 	prj.id_prj AS projet_id,
-  prj.nom_prj AS projet_nom,
-  prj.description_prj AS projet_description,
-  prj.etat_prj AS projet_etat,
+	prj.nom_prj AS projet_nom,
+	prj.description_prj AS projet_description,
+	prj.etat_prj AS projet_etat,
 	obrv.creationdate_obrv AS date_creation,
 	obrv.modificationdate_obrv AS date_modification,
-	CASE
-		WHEN obrv.state_obrv = 0 THEN 'Cree'
-		WHEN obrv.state_obrv = 1 THEN 'Modifie'
-		WHEN obrv.state_obrv = 2 THEN 'Supprime'
-	END statut,
-	--Attributs spécifiques
-	tkr.hauteur_tkr AS longueur,
-	tkr.largeur_tkr AS largeur,
-	tkr.profondeur_tkr AS profondeur,
-	tkr.forme_tkr AS forme,
-	tkr.couvercles_tkr AS couvercles,
 	--Annexes
 	anx_agg.annexe_chemins as annexes,
 	--Geometry
@@ -61,7 +50,8 @@ FROM dbo.objetreseauversion_obrv obrv
 		SELECT *
 		FROM dbo.noeudfeatureversion_ndfv ndfv1
 		WHERE ndfv1.idprj_ndfv != 1
-		AND ndfv1.idsch_ndfv = 1) ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
+		AND ndfv1.idsch_ndfv = 1
+	) ndfv ON  ndfv.idobr_ndfv = obrv.idobr_obrv
 	LEFT JOIN (
 		SELECT * 
 		FROM dbo.noeudconnectionpointfeatureversion_npfv npfv1
@@ -75,8 +65,7 @@ FROM dbo.objetreseauversion_obrv obrv
 	LEFT JOIN dbo.npersonneabstraite_pra prae ON obrv.idexploitantpra_obrv = prae.id_pra
 	LEFT JOIN dbo.npersonneabstraite_pra praf ON obrv.idfournisseurpra_obrv = praf.id_pra
 	LEFT JOIN dbo.projet_prj prj ON prj.id_prj = obrv.idprj_obrv
-	LEFT JOIN dbo.chambre_tkr tkr ON tkr.id_obrv = obrv.id_obrv
 	LEFT JOIN export.vw_annexes_agg anx_agg ON anx_agg.idobr_objet = obrv.idobr_obrv
-	
-WHERE obrv.idorc_obrv IN (46,60)
-	AND obrv.idprj_obrv != 1; -- 46 chambres
+
+WHERE obrv.idorc_obrv = 11 
+	AND obrv.idprj_obrv != 1;

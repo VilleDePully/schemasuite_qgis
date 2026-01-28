@@ -5,10 +5,10 @@ DROP VIEW IF EXISTS export.vw_annexes_agg;
 CREATE OR REPLACE VIEW export.vw_annexes_agg AS
 
     SELECT 
-        lower(entitykey_anx) AS guid_objet,
+        idobr_anx AS idobr_objet,
         string_agg(chemin_anx, ' ; '::text) AS annexe_chemins, --gérer un lien qgis + un lien gmf ?
-        entitytype_anx AS type_objet
+        type_anx AS type_objet
     FROM dbo.annexe_anx
 	GROUP BY
-		lower(entitykey_anx),
-		entitytype_anx;
+		idobr_anx,
+        type_anx;
