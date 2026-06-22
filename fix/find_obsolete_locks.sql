@@ -1,0 +1,19 @@
+SELECT l.*
+FROM [SCHEMASUITE_LOCKING].[dbo].[Lock] l
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM (
+        SELECT Guid_PRJ FROM SCHEMASUITE_BELMONT.[dbo].[Projet_PRJ]
+        UNION
+        SELECT Guid_PRJ FROM [SCHEMAFIBER_DATA].[dbo].[Projet_PRJ]
+		UNION
+        SELECT Guid_PRJ FROM SCHEMAFIBER_DATA_V1.[dbo].[Projet_PRJ]
+		UNION
+        SELECT Guid_PRJ FROM SCHEMAFIBER_DATA_V2.[dbo].[Projet_PRJ]
+		UNION
+        SELECT Guid_PRJ FROM SCHEMAFIBER_DATA_V3.[dbo].[Projet_PRJ]
+		UNION
+        SELECT Guid_PRJ FROM SCHEMASUITE_PULLY.[dbo].[Projet_PRJ]
+    ) p
+    WHERE p.Guid_PRJ = l.LockOwner_Guid
+);
